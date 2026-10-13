@@ -23,8 +23,9 @@ LINES = [
 ]
 
 # one photo per weekday, Monday first
-BASES = ["espresso.jpg", "latte-flatlay.jpg", "latte-beans.jpg", "avocado-toast.jpg",
-         "cheers.jpg", "terrace.jpg", "latte-flatlay.jpg"]
+# morning Stories use coffee photos only; food (pizza etc.) belongs in evening posts
+BASES = ["espresso.jpg", "latte-flatlay.jpg", "latte-beans.jpg", "cheers.jpg",
+         "terrace.jpg", "latte-flatlay.jpg", "latte-beans.jpg"]
 
 def lora(s, w=500):
     f = ImageFont.truetype(os.path.join(T, "Lora-Variable.ttf"), s)
