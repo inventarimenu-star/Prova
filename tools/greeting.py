@@ -22,6 +22,10 @@ LINES = [
     ("E diel e qetë", "dhe një kafe e ngrohtë.", "Slow Sunday, warm coffee."),
 ]
 
+# one photo per weekday, Monday first
+BASES = ["espresso.jpg", "latte-flatlay.jpg", "latte-beans.jpg", "avocado-toast.jpg",
+         "cheers.jpg", "terrace.jpg", "latte-flatlay.jpg"]
+
 def lora(s, w=500):
     f = ImageFont.truetype(os.path.join(T, "Lora-Variable.ttf"), s)
     try: f.set_variation_by_axes([w])
@@ -36,12 +40,12 @@ def center(d, y, txt, f, fill):
 
 def render(date, offer=None):
     wd = date.weekday()
-    photo = Image.open(os.path.join(ROOT, "media", "base", "espresso.jpg")).convert("RGB")
-    s = H / photo.height
-    photo = photo.resize((int(photo.width * s), H), Image.LANCZOS)
-    x = (photo.width - W) // 2 + [-60, 0, 60, -30, 30, -90, 90][wd]
-    x = max(0, min(photo.width - W, x))
-    im = photo.crop((x, 0, x + W, H))
+    base = BASES[wd]
+    photo = Image.open(os.path.join(ROOT, "media", "base", base)).convert("RGB")
+    s = max(W / photo.width, H / photo.height)
+    photo = photo.resize((int(photo.width * s) + 1, int(photo.height * s) + 1), Image.LANCZOS)
+    x, y0 = (photo.width - W) // 2, (photo.height - H) // 2
+    im = photo.crop((x, y0, x + W, y0 + H))
     # soft dark gradient on the top half for legible text
     grad = Image.new("L", (1, H))
     for y in range(H):
