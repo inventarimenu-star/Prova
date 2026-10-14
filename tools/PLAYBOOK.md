@@ -36,6 +36,12 @@ Avoid the same photo/angle two days running. Skip a slot rather than post someth
   `ffmpeg -ss 0.5 -i reel.mp4 -frames:v 1 -q:v 2 out.jpg`), instagramData type "POST", facebookData type "POST".
 - Report reach of last week's posts in the weekly report (IGRE11/IGRE23 reels, IGPO14/IGPO28 posts, IGEV20 stories, FBRE11/FBPO12).
 
+## Hero product: premium Belgian beers (owner's call, 14 Oct 2026)
+Duvel and Blanche de Namur are top Belgian beers. In the 🍺&🍷 offer they cost 200 lekë (from 350 / 320), the same as a
+Heineken, yet sold 0 in the 30 days to 14 Oct while Heineken sold 227. Nobody knows. While the offer is enabled with those
+prices: give them one evening Reel per week (prefer Friday or a big-match night), lead with "birrat belge premium me çmimin
+e një Heineken-i", and track their weekly sales in the report (menu names "Duvel Beer", "Blenche de Namy").
+
 ## Photos (media/base) — some have text baked in
 - `heineken.jpg` — headline "HEINEKEN 200 LEKË · Shishe ose kriko · 12:00–23:00": use ONLY while 🍺&🍷 is enabled and both Heineken net prices are 200.
 - `food-lunch.jpg` — headline "OFERTA E DREKËS · 12:00–18:00 · 100 lekë më lirë": use ONLY while the lunch offer is enabled with −100.
