@@ -28,6 +28,14 @@ Pomodoro Pizzeria (5.0★) is 50 m away: position Boulevard as coffee + quick lu
 - Thu 11:30 lunch offer + Thu 19:00 food (weakest day) · Fri 18:30 drinks · Sat 11:30 lunch · Sun none
 Avoid the same photo/angle two days running. Skip a slot rather than post something inaccurate.
 
+## What performs on the accounts (Metricool, Jul–Oct 2026)
+- IG ~2,600 followers. Best post ever: 14 Sep breakfast-offer PHOTO (reach 508, 987 views). Offer photos beat Reels
+  (Reels ~250 reach). Reach collapses to ~3/day on days with no post → post every day.
+- Facebook page has MORE followers (~3,670) but was almost unused (1 post in 90 days, slowly losing followers) → always cross-post.
+- So: per week publish 2 of the Reels ALSO as a feed photo POST the next day (frame at 0.5 s of the Reel, saved as .jpg:
+  `ffmpeg -ss 0.5 -i reel.mp4 -frames:v 1 -q:v 2 out.jpg`), instagramData type "POST", facebookData type "POST".
+- Report reach of last week's posts in the weekly report (IGRE11/IGRE23 reels, IGPO14/IGPO28 posts, IGEV20 stories, FBRE11/FBPO12).
+
 ## Photos (media/base) — some have text baked in
 - `heineken.jpg` — headline "HEINEKEN 200 LEKË · Shishe ose kriko · 12:00–23:00": use ONLY while 🍺&🍷 is enabled and both Heineken net prices are 200.
 - `food-lunch.jpg` — headline "OFERTA E DREKËS · 12:00–18:00 · 100 lekë më lirë": use ONLY while the lunch offer is enabled with −100.
