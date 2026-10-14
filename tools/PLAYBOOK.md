@@ -69,3 +69,10 @@ Never write "pica": the owner wants "pizza".
 Rows (label, net price, old price or null), prices from the DB every day:
 Çokollatë e nxehtë = ÇOKOLLATE · Kapuçino = KAPUCHINO ME KAFE · Çaj bio = CAJ I NXEHTË BIO · Briosh = Briosh ·
 Tost mëngjesi = Tost Mengjesi (not in the offer → old price null). Skip the Story if the breakfast offer is disabled.
+
+## Lottery QR reminder (owner: never forget it)
+Every receipt has a QR lottery ticket ("Skano QR-në në faturë: mund të jesh fitues").
+Check `select enabled, ends_at from lottery_settings` (read-only). While enabled and today ≤ ends_at:
+- pass `--qr` to greeting.py, lastcall.py and matchday.py (adds the gold pill),
+- end every Reel/post caption with the line: "🎟️ Skano QR-në në faturë, mund të jesh fitues!"
+- the weekly report may quote real totals (wins, lekë returned) from lottery_tickets; never invent odds or numbers.

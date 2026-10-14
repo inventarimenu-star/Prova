@@ -19,11 +19,21 @@ def lora(s, w=500):
     return f
 def pop(s, w="Regular"): return ImageFont.truetype(os.path.join(T, f"Poppins-{w}.ttf"), s)
 
+def qr_line(im, y=1590):
+    """Lottery reminder pill (only when the lottery is enabled)."""
+    from PIL import ImageDraw
+    d = ImageDraw.Draw(im)
+    t = "Skano QR-në në faturë: mund të jesh fitues"
+    f = pop(34, "Medium"); w = d.textlength(t, font=f)
+    x0 = (W - w) // 2 - 36
+    d.rounded_rectangle([x0, y, W - x0, y + 74], 37, fill=(226, 192, 128))
+    d.text(((W - w) // 2, y + 16), t, font=f, fill=(30, 22, 14))
+
 def center(d, y, txt, f, fill):
     bb = d.textbbox((0, 0), txt, font=f)
     d.text(((W - (bb[2] - bb[0])) // 2 - bb[0], y), txt, font=f, fill=fill)
 
-def render(date, rows, until="11:00"):
+def render(date, rows, until="11:00", qr=False):
     p = Image.open(os.path.join(ROOT, "media", "base", "latte-flatlay.jpg")).convert("RGB")
     s = max(W / p.width, H / p.height)
     p = p.resize((int(p.width * s) + 1, int(p.height * s) + 1))
@@ -53,10 +63,11 @@ def render(date, rows, until="11:00"):
     center(d, y + 90, "Last hour of the breakfast offer", pop(28), MUTED)
     out = os.path.join(ROOT, "media", "daily", f"oferta-ora-fundit-{date}.jpg")
     os.makedirs(os.path.dirname(out), exist_ok=True)
+    if qr: qr_line(im)
     im.save(out, quality=90)
     return out
 
 if __name__ == "__main__":
-    a = argparse.ArgumentParser(); a.add_argument("date"); a.add_argument("rows"); a.add_argument("--until", default="11:00")
+    a = argparse.ArgumentParser(); a.add_argument("date"); a.add_argument("rows"); a.add_argument("--until", default="11:00"); a.add_argument("--qr", action="store_true")
     a = a.parse_args()
-    print(render(a.date, json.load(open(a.rows)), a.until))
+    print(render(a.date, json.load(open(a.rows)), a.until, qr=a.qr))

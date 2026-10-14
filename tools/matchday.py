@@ -19,6 +19,16 @@ def lora(s, w=500):
     return f
 def pop(s, w="Regular"): return ImageFont.truetype(os.path.join(T, f"Poppins-{w}.ttf"), s)
 
+def qr_line(im, y=1590):
+    """Lottery reminder pill (only when the lottery is enabled)."""
+    from PIL import ImageDraw
+    d = ImageDraw.Draw(im)
+    t = "Skano QR-në në faturë: mund të jesh fitues"
+    f = pop(34, "Medium"); w = d.textlength(t, font=f)
+    x0 = (W - w) // 2 - 36
+    d.rounded_rectangle([x0, y, W - x0, y + 74], 37, fill=(226, 192, 128))
+    d.text(((W - w) // 2, y + 16), t, font=f, fill=(30, 22, 14))
+
 def center(d, y, txt, f, fill):
     bb = d.textbbox((0, 0), txt, font=f)
     d.text(((W - (bb[2] - bb[0])) // 2 - bb[0], y), txt, font=f, fill=fill)
@@ -30,7 +40,7 @@ def fit(d, txt, size, maxw, w="Medium"):
         size -= 2
     return pop(size, w)
 
-def render(date, matches, offer=None):
+def render(date, matches, offer=None, qr=False):
     bg = Image.open(os.path.join(ROOT, "media", "base", "heineken.jpg")).convert("RGB")
     s = max(W / bg.width, H / bg.height)
     bg = bg.resize((int(bg.width * s) + 1, int(bg.height * s) + 1))
@@ -55,10 +65,11 @@ def render(date, matches, offer=None):
     center(d, y + 60, "Tonight's matches live at Boulevard Caffe", pop(28), MUTED)
     out = os.path.join(ROOT, "media", "daily", f"ndeshjet-{date}.jpg")
     os.makedirs(os.path.dirname(out), exist_ok=True)
+    if qr: qr_line(im)
     im.save(out, quality=90)
     return out
 
 if __name__ == "__main__":
-    p = argparse.ArgumentParser(); p.add_argument("date"); p.add_argument("matches"); p.add_argument("--offer")
+    p = argparse.ArgumentParser(); p.add_argument("date"); p.add_argument("matches"); p.add_argument("--offer"); p.add_argument("--qr", action="store_true")
     a = p.parse_args()
-    print(render(a.date, json.load(open(a.matches)), a.offer))
+    print(render(a.date, json.load(open(a.matches)), a.offer, qr=a.qr))

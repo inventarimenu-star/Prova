@@ -34,12 +34,22 @@ def lora(s, w=500):
     return f
 def pop(s, w="Regular"): return ImageFont.truetype(os.path.join(T, f"Poppins-{w}.ttf"), s)
 
+def qr_line(im, y=1590):
+    """Lottery reminder pill (only when the lottery is enabled)."""
+    from PIL import ImageDraw
+    d = ImageDraw.Draw(im)
+    t = "Skano QR-në në faturë: mund të jesh fitues"
+    f = pop(34, "Medium"); w = d.textlength(t, font=f)
+    x0 = (W - w) // 2 - 36
+    d.rounded_rectangle([x0, y, W - x0, y + 74], 37, fill=(226, 192, 128))
+    d.text(((W - w) // 2, y + 16), t, font=f, fill=(30, 22, 14))
+
 def center(d, y, txt, f, fill):
     bb = d.textbbox((0, 0), txt, font=f)
     d.text(((W - (bb[2] - bb[0])) // 2 - bb[0], y), txt, font=f, fill=fill)
     return y + (bb[3] - bb[1])
 
-def render(date, offer=None):
+def render(date, offer=None, qr=False):
     wd = date.weekday()
     base = BASES[wd]
     photo = Image.open(os.path.join(ROOT, "media", "base", base)).convert("RGB")
@@ -65,11 +75,12 @@ def render(date, offer=None):
     center(d, y + 40, en, pop(30), MUTED)
     out = os.path.join(ROOT, "media", "daily", f"greeting-{date.isoformat()}.jpg")
     os.makedirs(os.path.dirname(out), exist_ok=True)
+    if qr: qr_line(im)
     im.save(out, quality=90)
     return out
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("date"); p.add_argument("--offer", default=None)
+    p.add_argument("date"); p.add_argument("--offer", default=None); p.add_argument("--qr", action="store_true")
     a = p.parse_args()
-    print(render(datetime.date.fromisoformat(a.date), a.offer))
+    print(render(datetime.date.fromisoformat(a.date), a.offer, qr=a.qr))
