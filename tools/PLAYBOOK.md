@@ -63,3 +63,9 @@ Never write "pica": the owner wants "pizza".
   Prefer the biggest clubs when there are more than 7. Short common names (Man City, PSG, Real Madrid).
 - Team names only: never club logos, crests or league logos/marks.
 - Offer line only if 🍺&🍷 is enabled and Heineken net price matches.
+
+## 10:00 "Ora e fundit" Story (owner's idea, daily while the breakfast offer is enabled)
+`python3 tools/lastcall.py D rows.json --until <offer end HH:MM>` → media/daily/oferta-ora-fundit-D.jpg, posted 10:00.
+Rows (label, net price, old price or null), prices from the DB every day:
+Çokollatë e nxehtë = ÇOKOLLATE · Kapuçino = KAPUCHINO ME KAFE · Çaj bio = CAJ I NXEHTË BIO · Briosh = Briosh ·
+Tost mëngjesi = Tost Mengjesi (not in the offer → old price null). Skip the Story if the breakfast offer is disabled.
