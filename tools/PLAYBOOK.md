@@ -41,3 +41,11 @@ Never write "pica": the owner wants "pizza".
 - Music: `python3 tools/audio.py music 12 m.wav warm|evening` then `python3 tools/audio.py mix in.mp4 m.wav out.mp4`. Always add music.
 - Captions: Albanian first, one short English line, one ask, max 4–5 hashtags (#elbasan #elbasancafe + topic).
 - Check `getScheduledPosts` first; never duplicate a slot that already has a post.
+
+## Football (the café shows all big matches)
+- Match-day Story: `python3 tools/matchday.py D matches.json [--offer "Heineken 200 lekë · shishe ose kriko"]`
+  matches.json = [["HH:MM local Tirane", "Home", "Away", "Competition"], ...], max 7, kickoffs 12:00–22:30 only.
+- Leagues: Champions League, Premier League, Serie A, La Liga, Bundesliga, Ligue 1, World Cup / Euro / Albania national team.
+  Prefer the biggest clubs when there are more than 7. Short common names (Man City, PSG, Real Madrid).
+- Team names only: never club logos, crests or league logos/marks.
+- Offer line only if 🍺&🍷 is enabled and Heineken net price matches.
