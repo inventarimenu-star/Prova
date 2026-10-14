@@ -52,7 +52,13 @@ Never write "pica": the owner wants "pizza".
 ## Tools
 - Reel: `python3 tools/reel_gen.py cfg.json` (cfg: src, tmp, out, anchor_y, subtitle, card_title, card_sub,
   rows [[label, price, sub, old_price]] max 4, foot1, foot2). Check two frames with Read before publishing.
-- Music: `python3 tools/audio.py music 12 m.wav warm|evening` then `python3 tools/audio.py mix in.mp4 m.wav out.mp4`. Always add music.
+- Music (owner, 14 Oct 2026): EVERY video gets original Italian-style melody (mandolin/accordion), NEVER a voice.
+  Styles: `mattina` = coffee/breakfast/morning/app, `pranzo` = lunch/pizza by day, `sera` = evening, beer, football, food after 18:00.
+  Reel: `python3 tools/italian_music.py 12 m.wav <style> <seed>` then `python3 tools/audio.py mix in.mp4 m.wav out.mp4`
+  (music length = video length; use a different seed each post so no two posts sound the same).
+- Stories are published as 10 s VIDEO with music, not as still jpg:
+  `python3 tools/story_video.py in.jpg out.mp4 <style> <seed>` (slow 4% zoom, text stays in frame). Morning Stories `mattina`, match-day `sera`.
+- Feed photo POSTs (frame grab) stay photos (Instagram API cannot add music to photos); they are the only exception.
 - Captions: Albanian first, one short English line, one ask, max 4–5 hashtags (#elbasan #elbasancafe + topic).
 - Check `getScheduledPosts` first; never duplicate a slot that already has a post.
 
