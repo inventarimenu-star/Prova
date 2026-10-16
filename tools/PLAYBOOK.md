@@ -54,6 +54,8 @@ Never write "pica": the owner wants "pizza".
   rows [[label, price, sub, old_price]] max 4, foot1, foot2). Check two frames with Read before publishing.
 - Music (owner, 14 Oct 2026): EVERY video gets original Italian-style melody (mandolin/accordion), NEVER a voice.
   Styles: `mattina` = coffee/breakfast/morning/app, `pranzo` = lunch/pizza by day, `sera` = evening, beer, football, food after 18:00.
+  `pianobar` = solo lounge piano (the café used to host live piano-bar nights): alternate it with `sera` for evening
+  posts, especially premium beers (Duvel/Blanche), wine and calm evenings; keep `sera` for football nights.
   Reel: `python3 tools/italian_music.py 12 m.wav <style> <seed>` then `python3 tools/audio.py mix in.mp4 m.wav out.mp4`
   (music length = video length; use a different seed each post so no two posts sound the same).
 - Stories are published as 10 s VIDEO with music, not as still jpg:

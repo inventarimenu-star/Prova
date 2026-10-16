@@ -4,6 +4,7 @@ python3 tools/italian_music.py SECONDS out.wav STYLE [seed]
 STYLE: mattina  - gentle mandolin waltz + guitar (breakfast, coffee)
        pranzo   - bright tarantella-ish 6/8, mandolin + accordion (lunch, pizza)
        sera     - slow romantic accordion + mandolin tremolo (evening, beer, wine)
+       pianobar - solo lounge piano ballad, jazzy 7th chords (Boulevard's live piano-bar nights)
 """
 import sys, wave
 import numpy as np
@@ -47,6 +48,21 @@ def accordion(freq, dur, amp):
     env = np.minimum(1, t / 0.05) * np.minimum(1, np.maximum(0, (dur + 0.05 - t) / 0.08))
     return amp * 0.22 * env * out
 
+def piano(freq, dur, amp):
+    """acoustic piano: hammer click, stretched partials, two-stage decay, soft release"""
+    t = np.arange(int(SR * (dur + 0.6))) / SR
+    out = np.zeros_like(t)
+    B = 0.0001 * (freq / 261.6) ** 0.5
+    for k in range(1, 12):
+        f = freq * k * np.sqrt(1 + B * k * k)
+        if f > SR / 2.2: break
+        g = 1 / k ** 1.4 if k > 1 else 1.0
+        d1 = 1.2 + 0.9 * k + freq / 400
+        out += g * (0.7 * np.exp(-t * d1) + 0.3 * np.exp(-t * d1 * 0.15)) * np.sin(2 * np.pi * f * t + k)
+    out += 0.15 * np.exp(-t * 90) * np.sin(2 * np.pi * freq * 7.1 * t)  # hammer
+    rel = np.minimum(1, np.maximum(0, (dur + 0.6 - t) / 0.5))
+    return amp * np.minimum(1, t / 0.002) * rel * out
+
 def add(buf, sig, at):
     k = int(at * SR)
     if k >= len(buf): return
@@ -65,8 +81,11 @@ def melody_for(chords, beats_per_bar, rng, key=60, high=72):
     pool = sorted({key + 12 + s for s in SCALE} | {key + 24 + s for s in SCALE[:4]})
     for b, (root, minor, sev) in enumerate(chords):
         ct = [n for n in pool if (n - (root % 12)) % 12 in [(x - root) % 12 for x in chord_tones(root, minor, sev)]]
-        opts = [[1, 1, 1], [2, 1], [1, 2], [0.5, 0.5, 1, 1], [3]] if beats_per_bar == 3 else \
-               [[1.5, 1.5], [1, 0.5, 1, 0.5], [0.5, 0.5, 0.5, 1.5], [3]]
+        if beats_per_bar == 4:
+            opts = [[1.5, 0.5, 2], [1, 1, 2], [2, 1, 1], [0.5, 0.5, 1, 2], [3, 1], [4]]
+        else:
+            opts = [[1, 1, 1], [2, 1], [1, 2], [0.5, 0.5, 1, 1], [3]] if beats_per_bar == 3 else \
+                   [[1.5, 1.5], [1, 0.5, 1, 0.5], [0.5, 0.5, 0.5, 1.5], [3]]
         rhythm = opts[int(rng.integers(len(opts)))]
         pos = 0.0
         for i, ln in enumerate(rhythm):
@@ -86,6 +105,8 @@ def render(seconds, style, seed=1):
         prog = [(62, False, False), (62, False, False), (69, False, True), (69, False, True),
                 (67, False, False), (62, False, False), (69, False, True), (62, False, False)]
         lead, lead_amp, use_acc = "mand", 0.16, True
+    elif style == "pianobar":
+        return render_pianobar(seconds, rng)
     elif style == "sera":
         bpm, bpb, key = 84, 3, 57
         prog = [(57, True, False), (62, True, False), (64, False, True), (57, True, False),
@@ -136,6 +157,44 @@ def render(seconds, style, seed=1):
     mix = np.tanh(1.2 * mix / (np.max(np.abs(mix)) + 1e-9)) * 0.85
     st = np.stack([mix, np.concatenate([np.zeros(int(SR * 0.009)), mix[:-int(SR * 0.009)]])], 1)
     return st
+
+def render_pianobar(seconds, rng):
+    """solo piano: left hand root + spread 7th chord (broken), right hand original melody, swing-ish ballad"""
+    n = int(SR * (seconds + 3)); mix = np.zeros(n)
+    bpm, bpb = 72, 4; beat = 60 / bpm; bar = beat * bpb
+    # ii-V-I-vi in F, then IV-iv-iii-VI  (maj7 / m7 / dom7 voicings as offsets from root)
+    M7, m7, D7 = [0, 4, 7, 11], [0, 3, 7, 10], [0, 4, 7, 10]
+    prog = [(55, m7), (60, D7), (53, M7), (50, m7), (58, M7), (58, m7), (57, m7), (50, D7)]
+    nbars = int(np.ceil(seconds / bar)) + 1
+    for bi in range(nbars):
+        root, q = prog[bi % len(prog)]; t0 = bi * bar
+        add(mix, piano(midi(root - 12), bar * 0.95, 0.20), t0)
+        voic = [root + x for x in q]
+        for j, c in enumerate(voic[1:]):
+            add(mix, piano(midi(c), bar * 0.9, 0.07), t0 + 0.9 * beat + j * 0.09)   # broken chord, "and" of 1
+        add(mix, piano(midi(root - 5), beat * 1.5, 0.10), t0 + 2 * beat)              # fifth on 3
+        for j, c in enumerate(voic[1:]):
+            add(mix, piano(midi(c), beat * 1.6, 0.05), t0 + 2.5 * beat + j * 0.03)
+    chords = [(r, q is m7, q is not M7) for r, q in prog]
+    mel = melody_for(chords, bpb, rng, key=65, high=77)
+    mel2 = melody_for(chords, bpb, np.random.default_rng(int(rng.integers(1 << 30))), key=65, high=77)
+    t = 0.0; which = 0; theme = len(prog) * bar
+    while t < seconds:
+        for bo, ln, note in (mel if which % 2 == 0 else mel2):
+            at = t + bo * beat + (0.06 * beat if (bo % 1) == 0.5 else 0)       # lazy swing on off-beats
+            if at > seconds: break
+            v = 0.17 if (bo % bpb) == 0 else 0.13
+            add(mix, piano(midi(note), ln * beat * 0.95, v), at)
+            if ln >= 2: add(mix, piano(midi(note - 12), ln * beat * 0.9, 0.05), at + 0.01)  # octave colour
+        t += theme; which += 1
+    mix = mix[:int(SR * seconds)]
+    rev = np.zeros_like(mix)
+    for d, g in ((0.029, .4), (0.043, .33), (0.067, .27), (0.101, .21), (0.149, .15), (0.211, .1), (0.293, .06)):
+        k = int(d * SR); rev[k:] += g * mix[:-k]
+    mix = mix + 0.7 * rev
+    f = int(SR * 1.8); mix[-f:] *= np.linspace(1, 0, f); mix[:int(SR * .2)] *= np.linspace(0, 1, int(SR * .2))
+    mix = np.tanh(1.1 * mix / (np.max(np.abs(mix)) + 1e-9)) * 0.85
+    return np.stack([mix, np.concatenate([np.zeros(int(SR * 0.012)), mix[:-int(SR * 0.012)]])], 1)
 
 if __name__ == "__main__":
     secs, out, style = float(sys.argv[1]), sys.argv[2], sys.argv[3]
