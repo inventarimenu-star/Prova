@@ -84,3 +84,11 @@ Check `select enabled, ends_at from lottery_settings` (read-only). While enabled
 - pass `--qr` to greeting.py, lastcall.py and matchday.py (adds the gold pill),
 - end every Reel/post caption with the line: "🎟️ Skano QR-në në faturë, mund të jesh fitues!"
 - the weekly report may quote real totals (wins, lekë returned) from lottery_tickets; never invent odds or numbers.
+
+## Loyalty program "E 10-ta FALAS" (live since 16 Oct 2026)
+Every 10th unit of each item is free; counted only for orders placed from the phone menu (scan table QR → caffeboulevard.com,
+name entered the first time, same phone; 30 days without orders resets). Check `select enabled from loyalty_settings` (read-only).
+While enabled: mention it in coffee/breakfast captions ("☕ E 10-ta kafe FALAS kur porosit nga telefoni") and in app posts.
+Media: media/besnikeria/ (programi-besnikerise-9x16.png, besnikeria-story*.mp4 — QR verified to open caffeboulevard.com).
+After the launch week, a loyalty Story at most 2–3 times a week, rotating 09:00 / 13:00 / 19:00. Never claim numbers of members.
+Note: the lottery only gives a chance to bills up to max_prize_value (lottery_settings) — don't promise "every bill can win".
