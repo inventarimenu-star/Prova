@@ -92,6 +92,6 @@ Every 10th unit of each item is free; counted only for orders placed from the ph
 name entered the first time, same phone; 30 days without orders resets). Check `select enabled from loyalty_settings` (read-only).
 While enabled: mention it in coffee/breakfast captions ("☕ E 10-ta kafe FALAS kur porosit nga telefoni") and in app posts.
 Media: media/besnikeria/ (programi-besnikerise-9x16.png, besnikeria-story*.mp4 — QR verified to open caffeboulevard.com).
-Owner's decision (17 Oct 2026): a loyalty Story EVERY day, rotating 09:00 / 13:00 / 19:00 (day of year mod 3), alternating
-  besnikeria-story-capcut.mp4 and besnikeria-story-2.mp4. Skip if a Story already sits at one of those three times that day. Never claim numbers of members.
+Owner's decision (17 Oct 2026): a loyalty Story EVERY day, rotating 09:00 / 13:00 / 19:00 (day of year mod 3), always
+  media/besnikeria/besnikeria-story-capcut.mp4 (owner, 17 Oct 2026: only the CapCut video, not the poster). Skip if a Story already sits at one of those three times that day. Never claim numbers of members.
 Note: the lottery only gives a chance to bills up to max_prize_value (lottery_settings) — don't promise "every bill can win".
