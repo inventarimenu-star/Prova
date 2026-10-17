@@ -70,6 +70,7 @@ Never write "pica": the owner wants "pizza".
   matches.json = [["HH:MM local Tirane", "Home", "Away", "Competition"], ...], max 7, kickoffs 12:00–22:30 only.
 - Leagues: Champions League, Premier League, Serie A, La Liga, Bundesliga, Ligue 1, World Cup / Euro / Albania national team.
   Prefer the biggest clubs when there are more than 7. Short common names (Man City, PSG, Real Madrid).
+- Design: night stadium + ball (owner's choice, 17 Oct 2026) = default style of matchday.py (background media/base/stadium.jpg).
 - Club crests next to team names (owner's decision, 17 Oct 2026; tools/logos via tools/logos.py). No league logos. Teams without a crest (e.g. national teams) show the name only.
 - Offer line only if 🍺&🍷 is enabled and Heineken net price matches.
 

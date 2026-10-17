@@ -1,6 +1,7 @@
 """Match-day Story for Boulevard Caffe, with club crests next to team names (owner's decision, 17 Oct 2026).
 
-python3 tools/matchday.py YYYY-MM-DD matches.json [--offer "Heineken 200 lekë"] [--qr] [--no-logos]
+python3 tools/matchday.py YYYY-MM-DD matches.json [--offer "Heineken 200 lekë"] [--qr] [--no-logos] [--style stadium|classic]
+Default style "stadium" (owner's chosen design, background media/base/stadium.jpg).
 Crests come from tools/logos (see tools/logos.py); a team without a crest is shown with its name only.
 matches.json: [["18:45", "LASK", "Liverpool", "Champions League"], ...]  (local Tirane time, max 7)
 Writes media/daily/ndeshjet-YYYY-MM-DD.jpg (1080x1920).
@@ -53,6 +54,49 @@ def crest(name, size):
     except Exception:
         return None
 
+def row_content(im, d, y, t, home, away, comp, logos):
+    d.text((125, y + 26), t, font=pop(42, "Medium"), fill=GOLD)
+    lh, la = (crest(home, 52), crest(away, 52)) if logos else (None, None)
+    avail = W - 90 - 300 - 30 - (60 if lh else 0) - (60 if la else 0)
+    txt = f"{home} – {away}"; f = fit(d, txt, 40, avail); x = 300
+    if lh: im.paste(lh, (x + (52 - lh.width) // 2, y + 12 + (52 - lh.height) // 2), lh); x += 60
+    d.text((x, y + 14), txt, font=f, fill=CREAM); x += int(d.textlength(txt, font=f)) + 8
+    if la: im.paste(la, (x + (52 - la.width) // 2, y + 12 + (52 - la.height) // 2), la)
+    d.text((300, y + 64), comp, font=pop(24), fill=MUTED)
+
+def render_stadium(date, matches, offer=None, qr=False, logos=True):
+    """Owner's chosen design (17 Oct 2026): night stadium + ball, dark rows with gold border."""
+    im = Image.open(os.path.join(ROOT, "media", "base", "stadium.jpg")).convert("RGB").resize((W, H))
+    ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); o = ImageDraw.Draw(ov)
+    # soft dark panels hide the grass under rows and footer
+    o.rounded_rectangle([70, 585, W - 70, 1460], 34, fill=(12, 14, 10, 200))
+    o.rounded_rectangle([95, 1470, 985, 1650], 30, fill=(12, 14, 10, 175))
+    n = len(matches[:7]); rh, gap = 104, 120
+    y0 = 600 + max(0, (7 - n) * gap // 2)
+    for i in range(n):
+        y = y0 + i * gap
+        o.rounded_rectangle([90, y, W - 90, y + rh], 20, fill=(24, 20, 14, 238), outline=(226, 192, 128, 255), width=2)
+    im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
+    d = ImageDraw.Draw(im)
+    center(d, 248, "BOULEVARD CAFFE · ELBASAN", pop(32, "Medium"), GOLD)
+    center(d, 330, "Sonte ndeshjet", lora(104, 600), (255, 255, 255))
+    center(d, 478, "të gjitha live te ne", pop(42, "Medium"), GOLD)
+    for i, (t, home, away, comp) in enumerate(matches[:7]):
+        row_content(im, d, y0 + i * gap, t, home, away, comp, logos)
+    y = 1490
+    if offer: center(d, y, offer, pop(44, "Medium"), GOLD)
+    center(d, 1556, "Rezervo tavolinën: 067 401 0030", pop(36, "Medium"), CREAM)
+    center(d, 1606, "Tonight's matches live at Boulevard Caffe", pop(28), MUTED)
+    # pill always drawn in the same place (covers the old artwork under it)
+    t = "Skano QR-në në faturë: mund të jesh fitues" if qr else "Boulevard Caffe · Bulevardi Qemal Stafa"
+    f = pop(36, "Medium")
+    d.rounded_rectangle([135, 1662, 945, 1742], 40, fill=(226, 192, 128))
+    tw = d.textlength(t, font=f); d.text((540 - tw / 2, 1679), t, font=f, fill=(30, 22, 14))
+    out = os.path.join(ROOT, "media", "daily", f"ndeshjet-{date}.jpg")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    im.save(out, quality=90)
+    return out
+
 def render(date, matches, offer=None, qr=False, logos=True):
     bg = Image.open(os.path.join(ROOT, "media", "base", "heineken.jpg")).convert("RGB")
     s = max(W / bg.width, H / bg.height)
@@ -94,5 +138,7 @@ def render(date, matches, offer=None, qr=False, logos=True):
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(); p.add_argument("date"); p.add_argument("matches"); p.add_argument("--offer"); p.add_argument("--qr", action="store_true"); p.add_argument("--no-logos", action="store_true")
+    p.add_argument("--style", choices=["stadium", "classic"], default="stadium")
     a = p.parse_args()
-    print(render(a.date, json.load(open(a.matches)), a.offer, qr=a.qr, logos=not a.no_logos))
+    fn = render_stadium if a.style == "stadium" else render
+    print(fn(a.date, json.load(open(a.matches)), a.offer, qr=a.qr, logos=not a.no_logos))
