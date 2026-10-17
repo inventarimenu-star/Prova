@@ -68,11 +68,8 @@ def render_stadium(date, matches, offer=None, qr=False, logos=True):
     """Owner's chosen design (17 Oct 2026): night stadium + ball, dark rows with gold border."""
     im = Image.open(os.path.join(ROOT, "media", "base", "stadium.jpg")).convert("RGB").resize((W, H))
     ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); o = ImageDraw.Draw(ov)
-    # soft dark panels hide the grass under rows and footer
-    o.rounded_rectangle([70, 585, W - 70, 1460], 34, fill=(12, 14, 10, 200))
-    o.rounded_rectangle([95, 1470, 985, 1650], 30, fill=(12, 14, 10, 175))
     n = len(matches[:7]); rh, gap = 104, 120
-    y0 = 600 + max(0, (7 - n) * gap // 2)
+    y0 = 600 + max(0, (7 - n) * gap // 3)
     for i in range(n):
         y = y0 + i * gap
         o.rounded_rectangle([90, y, W - 90, y + rh], 20, fill=(24, 20, 14, 238), outline=(226, 192, 128, 255), width=2)
@@ -83,10 +80,15 @@ def render_stadium(date, matches, offer=None, qr=False, logos=True):
     center(d, 478, "të gjitha live te ne", pop(42, "Medium"), GOLD)
     for i, (t, home, away, comp) in enumerate(matches[:7]):
         row_content(im, d, y0 + i * gap, t, home, away, comp, logos)
-    y = 1490
-    if offer: center(d, y, offer, pop(44, "Medium"), GOLD)
-    center(d, 1556, "Rezervo tavolinën: 067 401 0030", pop(36, "Medium"), CREAM)
-    center(d, 1606, "Tonight's matches live at Boulevard Caffe", pop(28), MUTED)
+    sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); sd = ImageDraw.Draw(sh)
+    lines = ([(1490, offer, pop(44, "Medium"), GOLD)] if offer else []) + [
+        (1556, "Rezervo tavolinën: 067 401 0030", pop(36, "Medium"), CREAM),
+        (1606, "Tonight's matches live at Boulevard Caffe", pop(28, "Medium"), CREAM)]
+    for yy, t, f, _ in lines:
+        bb = sd.textbbox((0, 0), t, font=f); sd.text(((W - (bb[2] - bb[0])) // 2 - bb[0] + 2, yy + 3), t, font=f, fill=(0, 0, 0, 200))
+    sh = sh.filter(ImageFilter.GaussianBlur(4))
+    im = Image.alpha_composite(im.convert("RGBA"), sh).convert("RGB"); d = ImageDraw.Draw(im)
+    for yy, t, f, col in lines: center(d, yy, t, f, col)
     # pill always drawn in the same place (covers the old artwork under it)
     t = "Skano QR-në në faturë: mund të jesh fitues" if qr else "Boulevard Caffe · Bulevardi Qemal Stafa"
     f = pop(36, "Medium")
