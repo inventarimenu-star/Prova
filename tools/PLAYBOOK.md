@@ -60,6 +60,7 @@ Never write "pica": the owner wants "pizza".
   (music length = video length; use a different seed each post so no two posts sound the same).
 - Stories are published as 10 s VIDEO with music, not as still jpg:
   `python3 tools/story_video.py in.jpg out.mp4 <style> <seed>` (slow 4% zoom, text stays in frame). Morning Stories `mattina`, match-day `sera`.
+- Videos the owner makes himself (CapCut etc.) keep THEIR OWN audio (owner, 17 Oct 2026); Italian music only on videos we generate.
 - Feed photo POSTs (frame grab) stay photos (Instagram API cannot add music to photos); they are the only exception.
 - Captions: Albanian first, one short English line, one ask, max 4–5 hashtags (#elbasan #elbasancafe + topic).
 - Check `getScheduledPosts` first; never duplicate a slot that already has a post.
@@ -69,7 +70,7 @@ Never write "pica": the owner wants "pizza".
   matches.json = [["HH:MM local Tirane", "Home", "Away", "Competition"], ...], max 7, kickoffs 12:00–22:30 only.
 - Leagues: Champions League, Premier League, Serie A, La Liga, Bundesliga, Ligue 1, World Cup / Euro / Albania national team.
   Prefer the biggest clubs when there are more than 7. Short common names (Man City, PSG, Real Madrid).
-- Team names only: never club logos, crests or league logos/marks.
+- Club crests next to team names (owner's decision, 17 Oct 2026; tools/logos via tools/logos.py). No league logos. Teams without a crest (e.g. national teams) show the name only.
 - Offer line only if 🍺&🍷 is enabled and Heineken net price matches.
 
 ## 10:00 "Ora e fundit" Story (owner's idea, daily while the breakfast offer is enabled)
@@ -90,5 +91,6 @@ Every 10th unit of each item is free; counted only for orders placed from the ph
 name entered the first time, same phone; 30 days without orders resets). Check `select enabled from loyalty_settings` (read-only).
 While enabled: mention it in coffee/breakfast captions ("☕ E 10-ta kafe FALAS kur porosit nga telefoni") and in app posts.
 Media: media/besnikeria/ (programi-besnikerise-9x16.png, besnikeria-story*.mp4 — QR verified to open caffeboulevard.com).
-After the launch week, a loyalty Story at most 2–3 times a week, rotating 09:00 / 13:00 / 19:00. Never claim numbers of members.
+Owner's decision (17 Oct 2026): a loyalty Story EVERY day, rotating 09:00 / 13:00 / 19:00 (day of year mod 3), alternating
+  besnikeria-story-capcut.mp4 and besnikeria-story-2.mp4. Skip if a Story already sits at one of those three times that day. Never claim numbers of members.
 Note: the lottery only gives a chance to bills up to max_prize_value (lottery_settings) — don't promise "every bill can win".

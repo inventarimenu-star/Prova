@@ -1,6 +1,7 @@
-"""Match-day Story for Boulevard Caffe (team names only, no club logos or league marks).
+"""Match-day Story for Boulevard Caffe, with club crests next to team names (owner's decision, 17 Oct 2026).
 
-python3 tools/matchday.py YYYY-MM-DD matches.json [--offer "Heineken 200 lekë"]
+python3 tools/matchday.py YYYY-MM-DD matches.json [--offer "Heineken 200 lekë"] [--qr] [--no-logos]
+Crests come from tools/logos (see tools/logos.py); a team without a crest is shown with its name only.
 matches.json: [["18:45", "LASK", "Liverpool", "Champions League"], ...]  (local Tirane time, max 7)
 Writes media/daily/ndeshjet-YYYY-MM-DD.jpg (1080x1920).
 """
@@ -40,7 +41,19 @@ def fit(d, txt, size, maxw, w="Medium"):
         size -= 2
     return pop(size, w)
 
-def render(date, matches, offer=None, qr=False):
+def crest(name, size):
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("logos", os.path.join(T, "logos.py"))
+        m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+        p = m.find(name)
+        if not p: return None
+        im = Image.open(p).convert("RGBA"); s = size / max(im.size)
+        return im.resize((max(1, int(im.width * s)), max(1, int(im.height * s))), Image.LANCZOS)
+    except Exception:
+        return None
+
+def render(date, matches, offer=None, qr=False, logos=True):
     bg = Image.open(os.path.join(ROOT, "media", "base", "heineken.jpg")).convert("RGB")
     s = max(W / bg.width, H / bg.height)
     bg = bg.resize((int(bg.width * s) + 1, int(bg.height * s) + 1))
@@ -55,7 +68,17 @@ def render(date, matches, offer=None, qr=False):
     for t, home, away, comp in matches[:7]:
         d.rounded_rectangle([90, y, W - 90, y + 104], 20, fill=(30, 24, 18), outline=(226, 192, 128), width=2)
         d.text((125, y + 26), t, font=pop(42, "Medium"), fill=GOLD)
-        d.text((300, y + 14), f"{home} – {away}", font=fit(d, f"{home} – {away}", 40, W - 90 - 300 - 30), fill=CREAM)
+        lh, la = (crest(home, 52), crest(away, 52)) if logos else (None, None)
+        if lh or la:
+            # [crest] Home – Away [crest]
+            avail = W - 90 - 300 - 30 - (60 if lh else 0) - (60 if la else 0)
+            f = fit(d, f"{home} – {away}", 40, avail)
+            x = 300
+            if lh: im.paste(lh, (x + (52 - lh.width) // 2, y + 12 + (52 - lh.height) // 2), lh); x += 60
+            txt = f"{home} – {away}"; d.text((x, y + 14), txt, font=f, fill=CREAM); x += int(d.textlength(txt, font=f)) + 8
+            if la: im.paste(la, (x + (52 - la.width) // 2, y + 12 + (52 - la.height) // 2), la)
+        else:
+            d.text((300, y + 14), f"{home} – {away}", font=fit(d, f"{home} – {away}", 40, W - 90 - 300 - 30), fill=CREAM)
         d.text((300, y + 64), comp, font=pop(24), fill=MUTED)
         y += 124
     y += 20
@@ -65,11 +88,11 @@ def render(date, matches, offer=None, qr=False):
     center(d, y + 60, "Tonight's matches live at Boulevard Caffe", pop(28), MUTED)
     out = os.path.join(ROOT, "media", "daily", f"ndeshjet-{date}.jpg")
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    if qr: qr_line(im)
+    if qr: qr_line(im, y=max(1590, y + 115))   # always below the footer lines
     im.save(out, quality=90)
     return out
 
 if __name__ == "__main__":
-    p = argparse.ArgumentParser(); p.add_argument("date"); p.add_argument("matches"); p.add_argument("--offer"); p.add_argument("--qr", action="store_true")
+    p = argparse.ArgumentParser(); p.add_argument("date"); p.add_argument("matches"); p.add_argument("--offer"); p.add_argument("--qr", action="store_true"); p.add_argument("--no-logos", action="store_true")
     a = p.parse_args()
-    print(render(a.date, json.load(open(a.matches)), a.offer, qr=a.qr))
+    print(render(a.date, json.load(open(a.matches)), a.offer, qr=a.qr, logos=not a.no_logos))
