@@ -2,6 +2,11 @@
 
 Owner: Erald. He wants this run without asking him for each post. Report results in Albanian, short.
 
+## Owner's decision 21 Oct 2026 (overrides the rest)
+Metricool free plan = 20 posts/month. From 21 Oct 2026 the owner posts Reels/Stories HIMSELF via Meta Business Suite;
+Metricool is used ONLY for the match-day Story (scheduled task). Daily-morning and weekly-planner tasks are disabled.
+Claude prepares videos/captions on request and checks prices in the DB; it does not schedule other posts in Metricool.
+
 ## Accounts
 - Metricool brand blogId `7293736` → Instagram `@boulevard.cafe_el` + Facebook page `boulevardcaffe`.
 - Publish every post to BOTH: providers `[{"network":"instagram"},{"network":"facebook"}]`,
