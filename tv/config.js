@@ -37,9 +37,10 @@ window.TV_CONFIG = {
 
     { type: 'video', src: 'media/reel-kafeja.mp4', kicker: 'BOULEVARD CAFFE', title: 'Kafeja jonë', theme: 'gold' },
     { type: 'matches' },
-    { type: 'loyalty', active: true },
+    { type: 'loyalty', active: false },   // fikur: e mbulon posteri i besnikërisë (ndize me true nëse do edhe kartën e lotarisë)
     { type: 'image', src: 'media/poster-besnikeria.jpg', active: true },              // poster CapCut i besnikërisë (QR i vërtetë)
-    { type: 'notice', active: true, kicker: 'NJOFTIM', title: 'Kërkojmë kamarier/e', sub: 'Për turnin e parë (mëngjes)',
+    { type: 'image', src: 'media/poster-kerkon-staf.jpg', active: true },             // poster CapCut: kërkon staf (fike me false kur gjen njeri)
+    { type: 'notice', active: false, kicker: 'NJOFTIM', title: 'Kërkojmë kamarier/e', sub: 'Për turnin e parë (mëngjes)',
       pill: 'Aplikoni: 067 401 0030', note: 'Telefononi, shkruani në WhatsApp ose ejani në lokal' }
   ],
 
