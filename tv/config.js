@@ -27,7 +27,8 @@ window.TV_CONFIG = {
       prices: [['Pizza Margarita', [528, 403, 654, 443], [445, 420, 509, 445]], ['Pizza Tono', [533, 530, 659, 571], [447, 548, 510, 573]],
                ['Chicken Wings', [534, 672, 659, 712], [445, 691, 511, 716]], ['Pizza Kapricoza', [1204, 407, 1330, 448], [1120, 423, 1183, 448]],
                ['Pizza 4 Djatherat', [1207, 545, 1334, 586], [1121, 561, 1184, 586]], ['Chiken Finger', [1209, 683, 1335, 723], [1130, 693, 1190, 718]]] },
-    { type: 'image', src: 'media/design-antipaste.jpg', from: '12:00', to: '18:00' },   // Antipaste, pa çmim, vetëm 12–18
+    { type: 'image', src: 'media/design-antipaste.jpg', from: '12:00', to: '18:00',   // Antipaste, pa çmim, vetëm 12–18
+      video: 'media/reel-dreka-antipaste.mp4', videoOffer: 'Oferta e Drekës 🍕', box: [61, 71, 538, 740], radius: 20 },   // video CapCut i pizzës në kornizën majtas (vetëm kur oferta e drekës është aktive; ka çmimet 400/500/600)
 
     { type: 'priced', bg: 'media/design-birra.jpg', src: 1672, offer: '🍺 & 🍷', color: '#F5BE4B',
       prices: [['Duvel Beer', [515, 458, 601, 487]], ['HEINEKEN SHISHE 400ml', [515, 564, 601, 592]], ['Birra Moretti 330ml', [515, 675, 602, 703]],

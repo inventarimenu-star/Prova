@@ -332,6 +332,12 @@
     image: function (s) {
       if (s.active === false) return null;
       if (s.from && s.to && !inWindow(s.from, s.to, nowParts().min)) return null;
+      if (s.video && s.box && (!s.videoOffer || activeOffer(s.videoOffer))) {
+        var k = 1280 / (s.srcW || 1672), b = s.box;
+        return '<div class="full"><img src="' + esc(M(s.src)) + '" alt=""><video src="' + esc(M(s.video)) + '" muted autoplay playsinline style="position:absolute;left:' +
+          (b[0] * k).toFixed(1) + 'px;top:' + (b[1] * k).toFixed(1) + 'px;width:' + ((b[2] - b[0]) * k).toFixed(1) + 'px;height:' + ((b[3] - b[1]) * k).toFixed(1) +
+          'px;object-fit:cover;object-position:center top;border-radius:' + ((s.radius || 18) * k).toFixed(1) + 'px;background:#000"></video></div>';
+      }
       if (s.offer && !activeOffer(s.offer)) return null;
       return '<div class="full"><img src="' + esc(M(s.src)) + '" alt=""></div>';
     },
