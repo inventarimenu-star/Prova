@@ -48,6 +48,8 @@ window.TV_CONFIG = {
     list: [
       // ['ORA', 'Shtëpia', 'Mysafiri', 'Kampionati']  (stemat merren vetë nga media/logos/)
       ['13:30', 'Aston Villa', 'Man City', 'Premier League'],
+      ['13:30', 'Partizani', 'Skënderbeu', 'Abissnet Superiore'],
+      ['13:30', 'Laçi', 'Vora', 'Abissnet Superiore'],
       ['16:00', 'Arsenal', 'Everton', 'Premier League'],
       ['18:00', 'Napoli', 'Roma', 'Serie A'],
       ['18:30', 'Teuta', 'AF Elbasani', 'Abissnet Superiore'],

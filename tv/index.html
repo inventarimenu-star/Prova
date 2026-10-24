@@ -59,6 +59,9 @@
   .m img { width: 40px; height: 40px; object-fit: contain; }
   .m .c { font-size: 20px; color: #B9C6DC; text-align: right; }
   .mlist { display: flex; flex-direction: column; gap: 7px; }
+  .mlist.dense { gap: 5px; }
+  .mlist.dense .m { font-size: 24px; padding: 1px 20px; }
+  .mlist.dense .m img { width: 34px; height: 34px; }
   /* besnikëria */
   .two-cards { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px; padding: 48px 72px 40px; min-height: 0; }
   .card { border-radius: 24px; padding: 38px; display: flex; flex-direction: column; gap: 16px; }
@@ -184,7 +187,7 @@
     matches: function () {
       var m = C.matches, n = nowParts();
       if (!m || m.date !== n.date) return null;
-      var list = (m.list || []).filter(function (x) { return toMin(x[0]) + 120 > n.min; }).slice(0, 7);
+      var list = (m.list || []).filter(function (x) { return toMin(x[0]) + 120 > n.min; }).slice(0, 9);
       if (!list.length) return null;
       function crest(t) { return '<img src="' + M('media/logos/' + slug(t) + '.png') + '" alt="" onerror="this.style.visibility=\'hidden\'">'; }
       var rows = list.map(function (x) {
@@ -193,7 +196,7 @@
       }).join('');
       var beer = activeOffer('🍺 & 🍷') ? m.offerLine : '';
       return '<div class="body" style="padding-top:30px"><div class="top"><span class="kicker">FUTBOLL LIVE NË EKRAN</span><span class="pill">Sot</span></div>' +
-        '<h1 style="margin:6px 0 14px;font-size:56px">Ndeshjet e sotme</h1><div class="mlist">' + rows + '</div></div>' + bar(beer);
+        '<h1 style="margin:6px 0 14px;font-size:56px">Ndeshjet e sotme</h1><div class="mlist' + (list.length > 7 ? ' dense' : '') + '">' + rows + '</div></div>' + bar(beer);
     },
     loyalty: function (s) {
       if (!s.active) return null;
