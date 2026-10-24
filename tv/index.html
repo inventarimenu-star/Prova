@@ -104,6 +104,7 @@
     if (s === e) return true;
     return s < e ? (m >= s && m < e) : (m >= s || m < e);
   }
+  function M(p) { p = String(p || ''); return /^https?:/.test(p) ? p : (C.mediaBase || '') + p; }
   function hhmm(t) { return String(t || '').slice(0, 5); }
   function slug(s) { return String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 
@@ -167,16 +168,16 @@
       var price = '<div><span class="big">' + p.now + '</span><span class="unit">lekë</span></div>' + (p.old > p.now ? '<div style="font-size:36px;color:var(--mut)"><s>' + p.old + ' lekë</s></div>' : '');
       var kick = esc(s.kicker) + ' ' + hhmm(o.start) + ' – ' + hhmm(o.end);
       if (s.layout === 'full') {
-        return '<div class="full"><img src="' + esc(s.photo) + '" alt=""><div class="band"><div><div class="kicker">' + kick + '</div>' +
+        return '<div class="full"><img src="' + esc(M(s.photo)) + '" alt=""><div class="band"><div><div class="kicker">' + kick + '</div>' +
           '<div style="font-family:\'Playfair Display\',serif;font-weight:900;font-size:80px;line-height:1">' + esc(s.label) + '</div></div>' +
           '<div style="text-align:right">' + price + '</div></div></div>';
       }
-      return '<div class="side"><img src="' + esc(s.photo) + '" alt=""><div class="info"><div class="kicker">' + kick + '</div>' +
+      return '<div class="side"><img src="' + esc(M(s.photo)) + '" alt=""><div class="info"><div class="kicker">' + kick + '</div>' +
         '<h1 style="margin:0">' + esc(s.label) + '</h1>' + price + '<div style="flex:1"></div></div></div>' + bar('Porosit nga telefoni: skano QR-në në tavolinë');
     },
     video: function (s) {
       if (s.offer && !activeOffer(s.offer)) return null;
-      return '<div class="vid"><video src="' + esc(s.src) + '" muted autoplay playsinline></video><div style="display:flex;flex-direction:column;gap:18px">' +
+      return '<div class="vid"><video src="' + esc(M(s.src)) + '" muted autoplay playsinline></video><div style="display:flex;flex-direction:column;gap:18px">' +
         '<div class="kicker">' + esc(s.kicker) + '</div><h1 style="margin:0">' + esc(s.title) + '</h1>' +
         '<div style="font-size:30px;color:#C9B9A3">Na ndiqni në Instagram: @boulevard.cafe_el</div></div></div>' + bar('');
     },
@@ -185,7 +186,7 @@
       if (!m || m.date !== n.date) return null;
       var list = (m.list || []).filter(function (x) { return toMin(x[0]) + 120 > n.min; }).slice(0, 7);
       if (!list.length) return null;
-      function crest(t) { return '<img src="media/logos/' + slug(t) + '.png" alt="" onerror="this.style.visibility=\'hidden\'">'; }
+      function crest(t) { return '<img src="' + M('media/logos/' + slug(t) + '.png') + '" alt="" onerror="this.style.visibility=\'hidden\'">'; }
       var rows = list.map(function (x) {
         return '<div class="m"><span class="t">' + esc(x[0]) + '</span><span class="h">' + esc(x[1]) + crest(x[1]) + '</span><span style="text-align:center;color:#8DA0C0">–</span>' +
           '<span class="a">' + crest(x[2]) + esc(x[2]) + '</span><span class="c">' + esc(x[3] || '') + '</span></div>';
@@ -198,7 +199,7 @@
       if (!s.active) return null;
       return '<div class="two-cards"><div class="card" style="background:#221910"><div class="kicker" style="font-size:22px">PROGRAMI I BESNIKËRISË</div>' +
         '<h2>E 10-ta FALAS</h2><p style="color:#E3D6C2">Porosit nga telefoni dhe çdo e 10-ta kafe është falas.</p><div style="flex:1"></div>' +
-        '<div style="display:flex;align-items:center;gap:24px"><img class="qr" src="media/qr-menu.png" alt="QR caffeboulevard.com">' +
+        '<div style="display:flex;align-items:center;gap:24px"><img class="qr" src="' + M('media/qr-menu.png') + '" alt="QR caffeboulevard.com">' +
         '<div style="font-size:28px;font-weight:700">Skano dhe porosit<br><span style="color:#D9A441">caffeboulevard.com</span></div></div></div>' +
         '<div class="card" style="background:#D9A441;color:#15100B"><div class="kicker" style="font-size:22px;color:#15100B">LOTARIA BOULEVARD</div>' +
         '<h2>Mund të jesh fitues!</h2><p>Çdo faturë ka një biletë QR. Skanoje dhe shiko nëse ke fituar.</p><div style="flex:1"></div>' +
@@ -220,7 +221,7 @@
     var a = ok[Math.floor(Math.random() * ok.length)];
     if (sinceAd < (a.every || 4)) return null;
     sinceAd = 0;
-    var media = a.video ? '<video src="' + esc(a.video) + '" muted autoplay playsinline></video>' : '<img src="' + esc(a.image) + '" alt="">';
+    var media = a.video ? '<video src="' + esc(M(a.video)) + '" muted autoplay playsinline></video>' : '<img src="' + esc(M(a.image)) + '" alt="">';
     return { html: '<div class="ad">' + media + '<span class="adtag">Reklamë</span></div>', theme: 'gold' };
   }
 

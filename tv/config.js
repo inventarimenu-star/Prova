@@ -5,6 +5,8 @@ window.TV_CONFIG = {
     url: 'https://c--58dc0c87-3008-4bdc-85e3-82d8c17aeb57-prod.lovable.cloud',
     key: 'sb_publishable_Wq2dUS_Y4EVTcSOQggwBhg_3grIeO_s' // çelës publik (i njëjti që përdor menuja e klientit)
   },
+  /* Fotot dhe videot merren nga GitHub (dosja tv/ e projektit). */
+  mediaBase: 'https://raw.githubusercontent.com/inventarimenu-star/Prova/main/tv/',
   seconds: 10,          // sa sekonda qëndron çdo ekran
   phone: '067 401 0030',
   timezone: 'Europe/Tirane',
