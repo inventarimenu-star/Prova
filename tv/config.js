@@ -58,7 +58,7 @@ window.TV_CONFIG = {
       ['18:30', 'Teuta', 'AF Elbasani', 'Abissnet Superiore'],
       ['18:30', 'Vllaznia', 'Tirana', 'Abissnet Superiore'],
       ['18:30', 'Chelsea', 'Tottenham', 'Premier League'],
-      ['21:00', 'Atletico Madrid', 'Deportivo', 'La Liga']
+      ['21:00', 'Atlético', 'Deportivo', 'La Liga']
     ]
   },
 

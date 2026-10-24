@@ -51,17 +51,14 @@
   .vid { flex: 1; display: flex; gap: 64px; padding: 40px 72px 40px; min-height: 0; align-items: center; }
   .vid video { height: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 22px; background: #000; }
   /* ndeshjet */
-  .m { display: grid; grid-template-columns: 100px minmax(0, 1fr) 36px minmax(0, 1fr) 220px; align-items: center; column-gap: 14px;
-       background: #13213A; border-radius: 12px; padding: 3px 20px; font-size: 28px; font-weight: 700; }
+  .m { display: grid; grid-template-columns: 3.4em minmax(0, 1fr) 1em minmax(0, 1fr) 6.4em; align-items: center; column-gap: .45em;
+       background: #13213A; border-radius: 12px; padding: 0 22px; font-weight: 700; }
   .m .t { color: var(--acc); font-weight: 800; }
-  .m .h { display: flex; align-items: center; gap: 12px; justify-content: flex-end; text-align: right; }
-  .m .a { display: flex; align-items: center; gap: 12px; }
-  .m img { width: 40px; height: 40px; object-fit: contain; }
-  .m .c { font-size: 20px; color: #B9C6DC; text-align: right; }
-  .mlist { display: flex; flex-direction: column; gap: 7px; }
-  .mlist.dense { gap: 5px; }
-  .mlist.dense .m { font-size: 24px; padding: 1px 20px; }
-  .mlist.dense .m img { width: 34px; height: 34px; }
+  .m .h { display: flex; align-items: center; gap: .35em; justify-content: flex-end; text-align: right; white-space: nowrap; overflow: hidden; }
+  .m .a { display: flex; align-items: center; gap: .35em; white-space: nowrap; overflow: hidden; }
+  .m img { width: 1.5em; height: 1.5em; object-fit: contain; flex-shrink: 0; }
+  .m .c { font-size: .55em; color: #B9C6DC; text-align: right; }
+  .mlist { flex: 1; display: grid; grid-auto-rows: minmax(0, 1fr); gap: 6px; min-height: 0; }
   /* besnikëria */
   .two-cards { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px; padding: 48px 72px 40px; min-height: 0; }
   .card { border-radius: 24px; padding: 38px; display: flex; flex-direction: column; gap: 16px; }
@@ -195,8 +192,10 @@
           '<span class="a">' + crest(x[2]) + esc(x[2]) + '</span><span class="c">' + esc(x[3] || '') + '</span></div>';
       }).join('');
       var beer = activeOffer('🍺 & 🍷') ? m.offerLine : '';
-      return '<div class="body" style="padding-top:30px"><div class="top"><span class="kicker">FUTBOLL LIVE NË EKRAN</span><span class="pill">Sot</span></div>' +
-        '<h1 style="margin:6px 0 14px;font-size:56px">Ndeshjet e sotme</h1><div class="mlist' + (list.length > 7 ? ' dense' : '') + '">' + rows + '</div></div>' + bar(beer);
+      var rowH = (720 - 84 - 22 - 14 - 66 - 6 * (list.length - 1)) / list.length;
+      var fs = Math.max(24, Math.min(40, Math.floor(rowH * 0.58)));
+      return '<div class="body" style="padding:22px 40px 14px"><div class="top" style="height:66px"><h1 style="margin:0;font-size:50px">Ndeshjet e sotme</h1>' +
+        '<span class="pill">FUTBOLL LIVE</span></div><div class="mlist" style="font-size:' + fs + 'px">' + rows + '</div></div>' + bar(beer);
     },
     loyalty: function (s) {
       if (!s.active) return null;
