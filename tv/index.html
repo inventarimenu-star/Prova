@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boulevard TV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@500;700;800&family=Kaushan+Script&display=swap">
 <style>
   html, body { margin: 0; height: 100%; background: #000; overflow: hidden; cursor: none; }
   #wrap { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
@@ -65,6 +65,39 @@
   .card h2 { margin: 0; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 76px; line-height: 1; }
   .card p { margin: 0; font-size: 30px; line-height: 1.35; }
   .qr { width: 190px; height: 190px; border-radius: 12px; image-rendering: pixelated; }
+  /* oferta me dizajn (sfond foto) */
+  .dz { position: absolute; inset: 0; }
+  .dz .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .dz .in { position: absolute; left: 150px; right: 130px; top: 0; bottom: 64px; }
+  .dz .logo { position: absolute; left: 0; top: 18px; text-align: center; }
+  .dz .logo b { display: block; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 58px; line-height: 1; color: #FFF7EA; }
+  .dz .logo b i { font-style: normal; color: #F5B83D; }
+  .dz .logo span { display: flex; align-items: center; gap: 14px; justify-content: center; margin-top: 6px; color: #F5B83D; font-weight: 700; font-size: 17px; letter-spacing: 9px; }
+  .dz .logo span:before, .dz .logo span:after { content: ''; flex: 1; height: 2px; background: #F5B83D; }
+  .dz .time { position: absolute; right: 0; top: 40px; display: flex; align-items: center; gap: 10px; background: #F5B83D; color: #1A1008;
+              font-weight: 800; font-size: 32px; padding: 8px 22px; border-radius: 999px; }
+  .dz .time svg { width: 30px; height: 30px; }
+  .dz .kick { position: absolute; left: 0; top: 116px; display: flex; align-items: center; gap: 14px; color: #F5B83D; font-weight: 800; font-size: 21px; letter-spacing: 6px; }
+  .dz .kick svg { width: 40px; height: 32px; }
+  .dz h1 { position: absolute; left: 0; top: 140px; margin: 0; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 84px; color: #FFF7EA; text-shadow: 0 3px 14px rgba(0,0,0,.5); }
+  .dz .swoosh { position: absolute; left: 50px; top: 232px; width: 520px; height: 26px; }
+  .dz .items { position: absolute; left: 0; right: 0; top: 262px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 46px; }
+  .dz .it { display: flex; align-items: center; gap: 16px; height: 68px; border-bottom: 2px solid rgba(245,184,61,.75); }
+  .dz .it svg { width: 50px; height: 50px; flex-shrink: 0; }
+  .dz .it .n { flex: 1; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 38px; color: #FFF7EA; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 2px 8px rgba(0,0,0,.6); }
+  .dz .it .o { color: #CDBFAE; font-size: 22px; font-weight: 700; text-decoration: line-through; }
+  .dz .it .p { color: #F5B83D; font-size: 38px; font-weight: 800; white-space: nowrap; }
+  .dz .tag { position: absolute; left: 120px; top: 512px; transform: rotate(-11deg); transform-origin: left top; font-family: 'Kaushan Script', cursive;
+             color: #F5B83D; font-size: 40px; line-height: 1.15; text-shadow: 0 2px 10px rgba(0,0,0,.7); }
+  .dz .tag i { display: block; width: 260px; height: 3px; background: #F5B83D; border-radius: 3px; margin: 6px 0 0 60px; font-style: normal; }
+  .dz .foot { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: rgba(18,11,5,.93); border-top: 2px solid rgba(245,184,61,.6);
+              display: flex; align-items: center; gap: 26px; padding: 0 150px 0 150px; font-weight: 700; font-size: 22px; color: #FFF7EA; }
+  .dz .foot .b { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 30px; }
+  .dz .foot .b i { font-style: normal; color: #F5B83D; }
+  .dz .foot .sep { width: 2px; height: 32px; background: #F5B83D; }
+  .dz .foot .msg { flex: 1; display: flex; align-items: center; gap: 12px; }
+  .dz .foot .msg svg { width: 26px; height: 26px; }
+  .dz .foot em { font-style: normal; color: #F5B83D; }
   /* reklamë */
   .ad { position: absolute; inset: 0; background: #000; }
   .ad img, .ad video { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -150,12 +183,37 @@
     return '<div class="bar"><span class="brand">Boulevard <b>Caffe</b></span><span class="center">' + esc(text || '') +
       '</span><span class="clock" data-clock>' + nowParts().hm + '</span></div>';
   }
+  var ICON = {
+    cup: '<path d="M5 9h12v5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 13.5c1 .8 3 .8 4 0"/><path d="M10 3c-1 1.2 1 1.8 0 3.2"/>',
+    croissant: '<path d="M3 15c2-6 7-9 9-9s7 3 9 9"/><path d="M3 15c2 1 4 .5 5-1M21 15c-2 1-4 .5-5-1"/><path d="M8 14c1-3 2-6 4-8 2 2 3 5 4 8"/><path d="M12 6v9"/>',
+    tea: '<path d="M5 9h12v5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M9 15c0-2 1.5-3.5 4-3.5 0 2.5-1.5 3.5-4 3.5z"/>',
+    choc: '<path d="M5 11h12v3a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 12h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M6 11c0-2.5 2-4 5-4s5 1.5 5 4"/><path d="M9 7c0-2 1-3 2-4 1 1 2 2 2 4"/>'
+  };
+  function icon(n, extra) { return '<svg viewBox="0 0 24 24" fill="none" stroke="#F5B83D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"' + (extra || '') + '>' + (ICON[n] || ICON.cup) + '</svg>'; }
+  function designOffer(s, o, rows) {
+    var foot = esc(s.footer || '').replace(/\*(.+?)\*/g, '<em>$1</em>');
+    var items = rows.map(function (r) { return '<div class="it">' + icon(r.icon) + '<span class="n">' + esc(r.label) + '</span>' +
+      (r.p.old > r.p.now ? '<span class="o">' + r.p.old + '</span>' : '') + '<span class="p">' + r.p.now + ' L</span></div>'; }).join('');
+    var tag = (s.tagline || []).map(esc).join('<br>');
+    return '<div class="dz"><img class="bg" src="' + esc(M(s.bg)) + '" alt=""><div class="in">' +
+      '<div class="logo"><b>Boulevard <i>Caffè</i></b><span>ELBASAN</span></div>' +
+      '<div class="time"><svg viewBox="0 0 24 24" fill="none" stroke="#1A1008" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg>' + hhmm(o.start) + ' – ' + hhmm(o.end) + '</div>' +
+      '<div class="kick"><svg viewBox="0 0 30 24" fill="none" stroke="#F5B83D" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 19a8 8 0 0 1 16 0z" fill="#F5B83D"/><path d="M3 21h24M15 3v3M6 7l2 2M24 7l-2 2M2 14h3M25 14h3"/></svg>' + esc(s.kicker) + '</div>' +
+      '<h1>' + esc(s.title) + '</h1><svg class="swoosh" viewBox="0 0 520 26" aria-hidden="true"><path d="M4 20 C 140 2, 380 2, 516 14" stroke="#F5B83D" stroke-width="5" fill="none" stroke-linecap="round"/></svg>' +
+      '<div class="items">' + items + '</div>' + (tag ? '<div class="tag">' + tag + '<i></i></div>' : '') + '</div>' +
+      '<div class="foot"><span class="b">Boulevard <i>Caffè</i></span><span class="sep"></span><span class="msg"><svg viewBox="0 0 24 24" fill="#F5B83D" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg><span>' + foot + '</span></span>' +
+      '<span class="clock" data-clock style="color:#FFF7EA">' + nowParts().hm + '</span></div></div>';
+  }
   function priceHtml(p) {
     return '<span class="price">' + (p.old > p.now ? '<span class="old">' + p.old + '</span>' : '') + p.now + ' L</span>';
   }
   var build = {
     offer: function (s) {
       var o = activeOffer(s.offer); if (!o) return null;
+      if (s.design) {
+        var dr = s.items.map(function (x) { var p = o.items[norm(x[0])]; return p ? { label: x[1], icon: x[2], p: p } : null; }).filter(Boolean);
+        return dr.length ? designOffer(s, o, dr.slice(0, 6)) : null;
+      }
       var rows = s.items.map(function (x) { var p = o.items[norm(x[0])]; return p ? '<div class="row"><span class="n">' + esc(x[1]) + '</span>' + priceHtml(p) + '</div>' : ''; }).filter(Boolean);
       if (!rows.length) return null;
       return '<div class="body"><div class="top"><span class="kicker">' + esc(s.kicker) + '</span><span class="pill">' + hhmm(o.start) + ' – ' + hhmm(o.end) + '</span></div>' +

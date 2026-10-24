@@ -14,10 +14,10 @@ window.TV_CONFIG = {
   /* Ekranet, sipas radhës. Një ekran "offer" del VETËM kur oferta është aktive në sistem dhe brenda orarit të saj.
      items: [emri në sistem, emri në TV]. Artikujt që mungojnë ose s'janë në ofertë nuk shfaqen. */
   slides: [
-    { type: 'offer', offer: 'Oferta e Mëngjesit', kicker: 'OFERTA E MËNGJESIT', title: 'Fillo ditën me ne', theme: 'gold',
-      footer: 'E 10-ta kafe FALAS kur porosit nga telefoni',
-      items: [['KAFE expres', 'Kafe ekspres'], ['KAFE MAKIATO', 'Makiato'], ['KAPUCHINO ME KAFE', 'Kapuçino'],
-              ['Briosh', 'Briosh'], ['ÇOKOLLATE', 'Çokollatë'], ['CAJ I NXEHTË BIO', 'Çaj bio']] },
+    { type: 'offer', design: true, bg: 'media/bg-mengjesi.jpg', offer: 'Oferta e Mëngjesit', kicker: 'OFERTA E MËNGJESIT', title: 'Fillo ditën me ne', theme: 'gold',
+      footer: 'E 10-ta kafe *FALAS* kur porosit nga telefoni', tagline: ['Kafe e mirë,', 'fillim i mbarë!'],
+      items: [['KAFE expres', 'Kafe ekspres', 'cup'], ['KAFE MAKIATO', 'Makiato', 'cup'], ['KAPUCHINO ME KAFE', 'Kapuçino', 'cup'],
+              ['Briosh', 'Briosh', 'croissant'], ['ÇOKOLLATE', 'Çokollatë', 'choc'], ['CAJ I NXEHTË BIO', 'Çaj bio', 'tea']] },
     { type: 'image', src: 'media/poster-mengjesi.jpg', offer: 'Oferta e Mëngjesit' },   // poster CapCut (del vetëm 07–11)
     { type: 'product', offer: 'Oferta e Mëngjesit', item: 'KAFE expres', label: 'Kafe ekspres', kicker: 'MËNGJESI',
       photo: 'media/espresso.jpg', layout: 'full', theme: 'gold' },
