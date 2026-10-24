@@ -35,7 +35,8 @@ window.TV_CONFIG = {
       items: [['Duvel Beer', 'Duvel'], ['Blenche de Namy', 'Blanche'], ['HEINEKEN SHISHE 400ml', 'Heineken shishe'],
               ['KRIKO Heineken 400ml', 'Heineken kriko'], ['Birra Moretti 330ml', 'Moretti'], ['GOTE VERE', 'Gotë verë']] },
 
-    { type: 'video', src: 'media/reel-kafeja.mp4', kicker: 'BOULEVARD CAFFE', title: 'Kafeja jonë', theme: 'gold' },
+    { type: 'video', design: true, bg: 'media/bg-mengjesi.jpg', src: 'media/reel-kafeja.mp4', kicker: 'ESPRESSO · KAPUÇINO · MAKIATO', title: 'Kafeja jonë', theme: 'gold',
+      footer: 'E 10-ta kafe *FALAS* kur porosit nga telefoni', tagline: ['Kafe e mirë,', 'fillim i mbarë!'] },
     { type: 'matches' },
     { type: 'loyalty', active: false },   // fikur: e mbulon posteri i besnikërisë (ndize me true nëse do edhe kartën e lotarisë)
     { type: 'image', src: 'media/poster-besnikeria.jpg', active: true },              // poster CapCut i besnikërisë (QR i vërtetë)
