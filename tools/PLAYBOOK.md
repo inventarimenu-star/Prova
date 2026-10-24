@@ -7,6 +7,15 @@ Metricool free plan = 20 posts/month. From 21 Oct 2026 the owner posts Reels/Sto
 Metricool is used ONLY for the match-day Story (scheduled task). Daily-morning and weekly-planner tasks are disabled.
 Claude prepares videos/captions on request and checks prices in the DB; it does not schedule other posts in Metricool.
 
+## Owner's decision 24 Oct 2026: NEW DESIGNS ONLY (overrides the rest)
+The owner's own designs are now the only models for offers, on TV and Instagram:
+- Lunch: tv/media/design-dreka.jpg (pizza list) + tv/media/design-antipaste.jpg (no price, 12–18).
+- Beer & wine: tv/media/design-birra.jpg (Blanche de Namur, never Hoegaarden; Heineken 0.40 L).
+- Video: tv/media/reel-heineken.mp4. Breakfast: the design slide in tv/config.js (bg-mengjesi.jpg).
+Prices on these are drawn live from the DB (TV) or rendered from the DB on the day (Instagram: media/ig/).
+The old generated Reels/Stories (media/weekly, media/daily) were deleted at the owner's request. Do not recreate
+the old simple list/Reel styles for offers. Do only what the owner asks, one thing at a time.
+
 ## Accounts
 - Metricool brand blogId `7293736` → Instagram `@boulevard.cafe_el` + Facebook page `boulevardcaffe`.
 - Publish every post to BOTH: providers `[{"network":"instagram"},{"network":"facebook"}]`,

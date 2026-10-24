@@ -22,18 +22,19 @@ window.TV_CONFIG = {
     { type: 'product', offer: 'Oferta e Mëngjesit', item: 'KAFE expres', label: 'Kafe ekspres', kicker: 'MËNGJESI',
       photo: 'media/espresso.jpg', layout: 'full', theme: 'gold' },
 
-    { type: 'offer', offer: 'Oferta e Drekës 🍕', kicker: 'OFERTA E DREKËS', title: 'Pizza 100 lekë më lirë', theme: 'orange',
-      footer: 'Porosit nga telefoni: skano QR-në në tavolinë',
-      items: [['Pizza Margarita', 'Pizza Margarita'], ['Pizza Kapricoza', 'Pizza Kapricoza'], ['Pizza Tono', 'Pizza Tono'],
-              ['Pizza 4 Djatherat', 'Pizza 4 Djathërat'], ['Chicken Wings', 'Chicken Wings'], ['Chiken Finger', 'Chicken Finger']] },
-    { type: 'product', offer: 'Oferta e Drekës 🍕', item: 'Pizza Margarita', label: 'Pizza Margarita', kicker: 'DREKA',
-      photo: 'media/food-pizza-clean.jpg', layout: 'side', theme: 'orange' },
-    { type: 'video', src: 'media/reel-pizza.mp4', offer: 'Oferta e Drekës 🍕', kicker: 'DREKA', title: 'Pizza e freskët', theme: 'orange' },
+    /* Dizajnet e pronarit (24 tetor): sfondi është fotoja e tij; çmimet vendosen live sipër, në vendin e tyre (koordinata në pikselët e fotos 1672×940). */
+    { type: 'priced', bg: 'media/design-dreka.jpg', src: 1672, offer: 'Oferta e Drekës 🍕', color: '#F5BE4B',
+      prices: [['Pizza Margarita', [528, 403, 654, 443], [445, 420, 509, 445]], ['Pizza Tono', [533, 530, 659, 571], [447, 548, 510, 573]],
+               ['Chicken Wings', [534, 672, 659, 712], [445, 691, 511, 716]], ['Pizza Kapricoza', [1204, 407, 1330, 448], [1120, 423, 1183, 448]],
+               ['Pizza 4 Djatherat', [1207, 545, 1334, 586], [1121, 561, 1184, 586]], ['Chiken Finger', [1209, 683, 1335, 723], [1130, 693, 1190, 718]]] },
+    { type: 'image', src: 'media/design-antipaste.jpg', from: '12:00', to: '18:00' },   // Antipaste, pa çmim, vetëm 12–18
 
-    { type: 'offer', offer: '🍺 & 🍷', kicker: 'BIRRA & VERË', title: 'Birrat belge premium me çmimin e një Heineken-i', theme: 'green',
-      footer: 'Skano QR-në në faturë: mund të jesh fitues!',
-      items: [['Duvel Beer', 'Duvel'], ['Blenche de Namy', 'Blanche'], ['HEINEKEN SHISHE 400ml', 'Heineken shishe'],
-              ['KRIKO Heineken 400ml', 'Heineken kriko'], ['Birra Moretti 330ml', 'Moretti'], ['GOTE VERE', 'Gotë verë']] },
+    { type: 'priced', bg: 'media/design-birra.jpg', src: 1672, offer: '🍺 & 🍷', color: '#F5BE4B',
+      prices: [['Duvel Beer', [515, 458, 601, 487]], ['HEINEKEN SHISHE 400ml', [515, 564, 601, 592]], ['Birra Moretti 330ml', [515, 675, 602, 703]],
+               ['Blenche de Namy', [1041, 458, 1127, 487]], ['KRIKO Heineken 400ml', [1045, 565, 1132, 593]], ['GOTE VERE', [1052, 677, 1134, 705]]] },
+    { type: 'video', design: true, bg: 'media/bg-heineken.jpg', src: 'media/reel-heineken.mp4', offer: '🍺 & 🍷', kickIcon: 'beer',
+      kicker: 'BIRRA & VERË · 12:00–23:00', title: 'Heineken', priceItem: 'HEINEKEN SHISHE 400ml', priceText: '{p} lekë · shishe ose kriko',
+      footer: 'Skano QR-në në faturë: mund të jesh *fitues*!' },
 
     { type: 'video', design: true, bg: 'media/bg-mengjesi.jpg', src: 'media/reel-kafeja.mp4', kicker: 'ESPRESSO · KAPUÇINO · MAKIATO', title: 'Kafeja jonë', theme: 'gold',
       footer: 'E 10-ta kafe *FALAS* kur porosit nga telefoni', tagline: ['Kafe e mirë,', 'fillim i mbarë!'] },

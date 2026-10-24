@@ -126,6 +126,10 @@
               display: flex; align-items: center; justify-content: space-between; padding: 0 60px; font-weight: 700; font-size: 21px; color: #fff; white-space: nowrap; gap: 20px; }
   .st .foot .g { color: #F2C14E; }
   .st .foot .pill2 { background: #F2C14E; color: #1A1008; padding: 6px 18px; border-radius: 999px; font-size: 20px; font-weight: 800; }
+  /* çmimet live mbi dizajnet e pronarit */
+  .pr { position: absolute; display: flex; align-items: center; justify-content: flex-end; font-family: Inter, sans-serif; font-weight: 800;
+        line-height: 1; white-space: nowrap; letter-spacing: -0.02em; text-shadow: 0 2px 6px rgba(0,0,0,.45); }
+  .pr.old { color: #9C9C9C; font-weight: 700; text-decoration: line-through; text-decoration-thickness: 3px; }
   /* reklamë */
   .ad { position: absolute; inset: 0; background: #000; }
   .ad img, .ad video { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -215,6 +219,7 @@
     cup: '<path d="M5 9h12v5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 13.5c1 .8 3 .8 4 0"/><path d="M10 3c-1 1.2 1 1.8 0 3.2"/>',
     croissant: '<path d="M3 15c2-6 7-9 9-9s7 3 9 9"/><path d="M3 15c2 1 4 .5 5-1M21 15c-2 1-4 .5-5-1"/><path d="M8 14c1-3 2-6 4-8 2 2 3 5 4 8"/><path d="M12 6v9"/>',
     tea: '<path d="M5 9h12v5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M9 15c0-2 1.5-3.5 4-3.5 0 2.5-1.5 3.5-4 3.5z"/>',
+    beer: '<path d="M6 7h10v11a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z"/><path d="M16 10h1.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H16"/><path d="M6 7c0-2 1.5-3 3-2.5C10 3 13 3 14 4.5 15.5 4 17 5 16 7"/><path d="M9 11v7M12.5 11v7"/>',
     choc: '<path d="M5 11h12v3a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 12h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M6 11c0-2.5 2-4 5-4s5 1.5 5 4"/><path d="M9 7c0-2 1-3 2-4 1 1 2 2 2 4"/>'
   };
   function icon(n, extra) { return '<svg viewBox="0 0 24 24" fill="none" stroke="#F5B83D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"' + (extra || '') + '>' + (ICON[n] || ICON.cup) + '</svg>'; }
@@ -269,9 +274,11 @@
         return '<div class="dz dzv"><img class="bg" src="' + esc(M(s.bg)) + '" alt="">' +
           '<div class="vbox"><video src="' + esc(M(s.src)) + '" muted autoplay playsinline></video></div><div class="in">' +
           '<div class="logo"><b>Boulevard <i>Caffè</i></b><span>ELBASAN</span></div>' +
-          '<div class="kick">' + icon('cup', ' style="width:34px;height:34px"') + esc(s.kicker) + '</div>' +
+          '<div class="kick">' + icon(s.kickIcon || 'cup', ' style="width:34px;height:34px"') + esc(s.kicker) + '</div>' +
           '<h1>' + esc(s.title) + '</h1><svg class="swoosh" viewBox="0 0 520 26" aria-hidden="true"><path d="M4 20 C 140 2, 380 2, 516 14" stroke="#F5B83D" stroke-width="5" fill="none" stroke-linecap="round"/></svg>' +
-          '<div class="sub">Na ndiqni në Instagram: <b>' + esc(s.insta || '@boulevard.cafe_el') + '</b></div>' +
+          (function () { if (!s.priceItem) return ''; var o2 = activeOffer(s.offer); var pp = o2 && o2.items[norm(s.priceItem)];
+            return pp ? '<div class="sub" style="top:330px;font-size:40px;color:#F5B83D">' + esc(s.priceText.replace('{p}', pp.now)) + '</div>' : ''; })() +
+          '<div class="sub"' + (s.priceItem ? ' style="top:392px;font-size:24px"' : '') + '>Na ndiqni në Instagram: <b>' + esc(s.insta || '@boulevard.cafe_el') + '</b></div>' +
           (tag ? '<div class="tag">' + tag + '<i></i></div>' : '') + '</div>' +
           '<div class="foot"><span class="b">Boulevard <i>Caffè</i></span><span class="sep"></span><span class="msg"><svg viewBox="0 0 24 24" fill="#F5B83D" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg><span>' + foot + '</span></span>' +
           '<span class="clock" data-clock style="color:#FFF7EA">' + nowParts().hm + '</span></div></div>';
@@ -308,8 +315,23 @@
         '<h2>Mund të jesh fitues!</h2><p>Çdo faturë ka një biletë QR. Skanoje dhe shiko nëse ke fituar.</p><div style="flex:1"></div>' +
         '<div class="pill" style="align-self:flex-start;background:#15100B;color:#D9A441">Skano QR-në në faturë</div></div></div>' + bar('');
     },
+    priced: function (s) {
+      var o = activeOffer(s.offer); if (!o) return null;
+      var k = 1280 / (s.src || 1672), shown = 0;
+      function box(b, extra) { return 'left:' + (b[0] * k).toFixed(1) + 'px;top:' + (b[1] * k).toFixed(1) + 'px;width:' + ((b[2] - b[0]) * k).toFixed(1) +
+        'px;height:' + ((b[3] - b[1]) * k).toFixed(1) + 'px;font-size:' + ((b[3] - b[1]) * k / 0.80).toFixed(1) + 'px;' + (extra || ''); }
+      var html = s.prices.map(function (r) {
+        var p = o.items[norm(r[0])]; if (!p) return ''; shown++;
+        var out = '<span class="pr" data-fit="' + ((r[1][2] - r[1][0]) * k + 4).toFixed(1) + '" style="' + box([r[1][0] - 40, r[1][1], r[1][2], r[1][3]], 'color:' + (s.color || '#F5BE4B')) + '"><b style="font-weight:inherit">' + p.now + ' L</b></span>';
+        if (r[2] && p.old > p.now) out += '<span class="pr old" style="' + box([r[2][0] - 20, r[2][1], r[2][2] - 4, r[2][3]]) + '">' + p.old + '</span>';
+        return out;
+      }).join('');
+      if (!shown) return null;
+      return '<div class="full"><img src="' + esc(M(s.bg)) + '" alt="">' + html + '</div>';
+    },
     image: function (s) {
       if (s.active === false) return null;
+      if (s.from && s.to && !inWindow(s.from, s.to, nowParts().min)) return null;
       if (s.offer && !activeOffer(s.offer)) return null;
       return '<div class="full"><img src="' + esc(M(s.src)) + '" alt=""></div>';
     },
@@ -347,6 +369,11 @@
     var el = document.createElement('div');
     el.className = 'slide ' + out.theme; el.innerHTML = out.html;
     stage.appendChild(el);
+    /* çmimet live: mos dalin më të gjera se teksti origjinal i dizajnit */
+    Array.prototype.forEach.call(el.querySelectorAll('.pr[data-fit]'), function (p) {
+      var b = p.firstChild, max = parseFloat(p.getAttribute('data-fit')), w = b.offsetWidth;
+      if (w > max) p.style.fontSize = (parseFloat(p.style.fontSize) * max / w).toFixed(1) + 'px';
+    });
     requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('on'); }); });
     var old = stage.querySelectorAll('.slide'); for (var i = 0; i < old.length - 1; i++) (function (o) { o.classList.remove('on'); setTimeout(function () { o.remove(); }, 900); })(old[i]);
     var v = el.querySelector('video');
