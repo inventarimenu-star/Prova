@@ -208,6 +208,11 @@
         '<h2>Mund të jesh fitues!</h2><p>Çdo faturë ka një biletë QR. Skanoje dhe shiko nëse ke fituar.</p><div style="flex:1"></div>' +
         '<div class="pill" style="align-self:flex-start;background:#15100B;color:#D9A441">Skano QR-në në faturë</div></div></div>' + bar('');
     },
+    image: function (s) {
+      if (s.active === false) return null;
+      if (s.offer && !activeOffer(s.offer)) return null;
+      return '<div class="full"><img src="' + esc(M(s.src)) + '" alt=""></div>';
+    },
     notice: function (s) {
       if (!s.active) return null;
       return '<div class="body" style="justify-content:center;gap:22px;padding-top:0"><div class="kicker">' + esc(s.kicker) + '</div>' +

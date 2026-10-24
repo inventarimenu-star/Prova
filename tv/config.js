@@ -18,6 +18,7 @@ window.TV_CONFIG = {
       footer: 'E 10-ta kafe FALAS kur porosit nga telefoni',
       items: [['KAFE expres', 'Kafe ekspres'], ['KAFE MAKIATO', 'Makiato'], ['KAPUCHINO ME KAFE', 'Kapuçino'],
               ['Briosh', 'Briosh'], ['ÇOKOLLATE', 'Çokollatë'], ['CAJ I NXEHTË BIO', 'Çaj bio']] },
+    { type: 'image', src: 'media/poster-mengjesi.jpg', offer: 'Oferta e Mëngjesit' },   // poster CapCut (del vetëm 07–11)
     { type: 'product', offer: 'Oferta e Mëngjesit', item: 'KAFE expres', label: 'Kafe ekspres', kicker: 'MËNGJESI',
       photo: 'media/espresso.jpg', layout: 'full', theme: 'gold' },
 
@@ -37,6 +38,7 @@ window.TV_CONFIG = {
     { type: 'video', src: 'media/reel-kafeja.mp4', kicker: 'BOULEVARD CAFFE', title: 'Kafeja jonë', theme: 'gold' },
     { type: 'matches' },
     { type: 'loyalty', active: true },
+    { type: 'image', src: 'media/poster-besnikeria.jpg', active: true },              // poster CapCut i besnikërisë (QR i vërtetë)
     { type: 'notice', active: true, kicker: 'NJOFTIM', title: 'Kërkojmë kamarier/e', sub: 'Për turnin e parë (mëngjes)',
       pill: 'Aplikoni: 067 401 0030', note: 'Telefononi, shkruani në WhatsApp ose ejani në lokal' }
   ],

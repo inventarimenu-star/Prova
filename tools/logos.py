@@ -20,7 +20,7 @@ ALIASES = {
     "barcelona": "FC Barcelona", "barca": "FC Barcelona", "atletico": "Atlético de Madrid",
     "atletico madrid": "Atlético de Madrid", "atl. madrid": "Atlético de Madrid", "betis": "Real Betis Balompié",
     "sevilla": "Sevilla FC", "villarreal": "Villarreal CF", "valencia": "Valencia CF", "bilbao": "Athletic Bilbao",
-    "athletic": "Athletic Bilbao", "sociedad": "Real Sociedad",
+    "athletic": "Athletic Bilbao", "sociedad": "Real Sociedad", "deportivo": "Deportivo La Coruña", "depor": "Deportivo La Coruña",
     "bayern": "Bayern Munich", "bayern munich": "Bayern Munich", "dortmund": "Borussia Dortmund", "bvb": "Borussia Dortmund",
     "leverkusen": "Bayer 04 Leverkusen", "leipzig": "RB Leipzig", "frankfurt": "Eintracht Frankfurt", "stuttgart": "VfB Stuttgart",
     "gladbach": "Borussia Mönchengladbach",
