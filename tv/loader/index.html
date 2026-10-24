@@ -12,14 +12,23 @@ Boulevard Caffe
 /* Ngarkuesi: merr faqen TV dhe cilësimet nga GitHub (dosja tv/), që çdo ndryshim të dalë pa ripublikuar këtë faqe.
    Nëse GitHub s'përgjigjet, përdor kopjen e fundit të ruajtur në këtë PC. */
 (function () {
-  var B = 'https://raw.githubusercontent.com/inventarimenu-star/Prova/main/tv/';
+  var R = 'https://raw.githubusercontent.com/inventarimenu-star/Prova/';
+  var B = R + 'main/tv/', ref = 'main';
   var t = Date.now();
   function txt(f) { return fetch(B + f + '?t=' + t, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }); }
+  /* versioni i fundit (commit) që GitHub të mos japë kopje të vjetër nga cache */
+  function latest() {
+    return fetch('https://api.github.com/repos/inventarimenu-star/Prova/commits/main', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { if (j && /^[0-9a-f]{40}$/.test(j.sha)) { ref = j.sha; B = R + ref + '/tv/'; } })
+      .catch(function () {});
+  }
   function run(page) {
     document.open(); document.write(page); document.close();
   }
-  Promise.all([txt('index.html'), txt('config.js')]).then(function (r) {
-    var page = r[0].replace('<script src="config.js"><\/script>', function () { return '<script>' + r[1] + '<\/script>'; });
+  latest().then(function () { return Promise.all([txt('index.html'), txt('config.js')]); }).then(function (r) {
+    var cfg = r[1].split('/Prova/main/tv/').join('/Prova/' + ref + '/tv/');
+    var page = r[0].replace('<script src="config.js"><\/script>', function () { return '<script>' + cfg + '<\/script>'; });
     if (page.indexOf('TV_CONFIG') < 0) throw new Error('bad');
     try { localStorage.setItem('tv-page', page); } catch (e) {}
     run(page);
