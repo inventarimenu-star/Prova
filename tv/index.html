@@ -109,6 +109,23 @@
   .dzv .sub { position: absolute; left: 0; top: 340px; display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 700; color: #FFF7EA; text-shadow: 0 2px 8px rgba(0,0,0,.7); }
   .dzv .sub b { color: #F5B83D; }
   .dzv .tag { left: 60px; top: 430px; }
+  /* ndeshjet me stadium */
+  .st { position: absolute; inset: 0; }
+  .st .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .st .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.25) 30%, rgba(0,0,0,.15) 100%); }
+  .st .in { position: absolute; left: 60px; right: 60px; top: 14px; bottom: 70px; display: flex; flex-direction: column; }
+  .st .hd { display: flex; justify-content: space-between; align-items: flex-end; height: 100px; flex-shrink: 0; }
+  .st .hd h1 { margin: 0; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 58px; color: #fff; line-height: 1; text-shadow: 0 3px 14px rgba(0,0,0,.7); }
+  .st .hd .sub { display: block; margin-top: 6px; color: #F2C14E; font-weight: 700; font-size: 24px; text-shadow: 0 2px 8px rgba(0,0,0,.8); }
+  .st .hd .brand2 { color: #F2C14E; font-weight: 800; font-size: 20px; letter-spacing: 2px; text-shadow: 0 2px 8px rgba(0,0,0,.8); margin-bottom: 8px; }
+  .st .mlist { margin-top: 10px; }
+  .st .m { background: rgba(26,20,12,.78); border: 1.5px solid rgba(242,193,78,.75); color: #fff; }
+  .st .m .t { color: #F2C14E; }
+  .st .m .c { color: #E8DCC4; }
+  .st .foot { position: absolute; left: 0; right: 0; bottom: 0; height: 62px; background: rgba(10,8,5,.82); border-top: 2px solid rgba(242,193,78,.7);
+              display: flex; align-items: center; justify-content: space-between; padding: 0 60px; font-weight: 700; font-size: 21px; color: #fff; white-space: nowrap; gap: 20px; }
+  .st .foot .g { color: #F2C14E; }
+  .st .foot .pill2 { background: #F2C14E; color: #1A1008; padding: 6px 18px; border-radius: 999px; font-size: 20px; font-weight: 800; }
   /* reklamë */
   .ad { position: absolute; inset: 0; background: #000; }
   .ad img, .ad video { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -274,10 +291,12 @@
           '<span class="a">' + crest(x[2]) + esc(x[2]) + '</span><span class="c">' + esc(x[3] || '') + '</span></div>';
       }).join('');
       var beer = activeOffer('🍺 & 🍷') ? m.offerLine : '';
-      var rowH = (720 - 84 - 22 - 14 - 66 - 6 * (list.length - 1)) / list.length;
+      var rowH = (720 - 70 - 14 - 100 - 10 - 6 * (list.length - 1)) / list.length;
       var fs = Math.max(24, Math.min(40, Math.floor(rowH * 0.58)));
-      return '<div class="body" style="padding:22px 40px 14px"><div class="top" style="height:66px"><h1 style="margin:0;font-size:50px">Ndeshjet e sotme</h1>' +
-        '<span class="pill">FUTBOLL LIVE</span></div><div class="mlist" style="font-size:' + fs + 'px">' + rows + '</div></div>' + bar(beer);
+      return '<div class="st"><img class="bg" src="' + esc(M(m.bg || 'media/bg-stadium.jpg')) + '" alt=""><div class="shade"></div><div class="in">' +
+        '<div class="hd"><div><h1>Sonte ndeshjet</h1><span class="sub">të gjitha live te ne</span></div><span class="brand2">BOULEVARD CAFFE · ELBASAN</span></div>' +
+        '<div class="mlist" style="font-size:' + fs + 'px">' + rows + '</div></div>' +
+        '<div class="foot"><span class="g">' + esc(beer || '') + '</span><span>Rezervo tavolinën: ' + esc(C.phone) + '</span><span class="pill2">Skano QR-në në faturë: mund të jesh fitues</span></div></div>';
     },
     loyalty: function (s) {
       if (!s.active) return null;
