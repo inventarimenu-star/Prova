@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boulevard TV</title>
+<style>html,body{margin:0;height:100%;background:#15100B;color:#D9A441;font:700 28px system-ui,sans-serif;display:flex;align-items:center;justify-content:center;cursor:none}</style>
+</head>
+<body>
+Boulevard Caffe
+<script>
+/* Ngarkuesi: merr faqen TV dhe cilësimet nga GitHub (dosja tv/), që çdo ndryshim të dalë pa ripublikuar këtë faqe.
+   Nëse GitHub s'përgjigjet, përdor kopjen e fundit të ruajtur në këtë PC. */
+(function () {
+  var B = 'https://raw.githubusercontent.com/inventarimenu-star/Prova/main/tv/';
+  var t = Date.now();
+  function txt(f) { return fetch(B + f + '?t=' + t, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }); }
+  function run(page) {
+    document.open(); document.write(page); document.close();
+  }
+  Promise.all([txt('index.html'), txt('config.js')]).then(function (r) {
+    var page = r[0].replace('<script src="config.js"></script>', function () { return '<script>' + r[1] + '<\/script>'; });
+    if (page.indexOf('TV_CONFIG') < 0) throw new Error('bad');
+    try { localStorage.setItem('tv-page', page); } catch (e) {}
+    run(page);
+  }).catch(function () {
+    var p = null; try { p = localStorage.getItem('tv-page'); } catch (e) {}
+    if (p) run(p); else setTimeout(function () { location.reload(); }, 60000);
+  });
+})();
+</script>
+</body>
+</html>
