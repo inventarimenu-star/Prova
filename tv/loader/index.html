@@ -19,7 +19,7 @@ Boulevard Caffe
     document.open(); document.write(page); document.close();
   }
   Promise.all([txt('index.html'), txt('config.js')]).then(function (r) {
-    var page = r[0].replace('<script src="config.js"></script>', function () { return '<script>' + r[1] + '<\/script>'; });
+    var page = r[0].replace('<script src="config.js"><\/script>', function () { return '<script>' + r[1] + '<\/script>'; });
     if (page.indexOf('TV_CONFIG') < 0) throw new Error('bad');
     try { localStorage.setItem('tv-page', page); } catch (e) {}
     run(page);
