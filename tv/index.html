@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boulevard TV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@500;700;800&display=swap">
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; cursor: none; }
+  #wrap { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #stage { width: 1280px; height: 720px; position: relative; overflow: hidden; transform-origin: center center;
+           font-family: Inter, system-ui, sans-serif; color: #F5EDE0; }
+  .slide { position: absolute; inset: 0; display: flex; flex-direction: column; opacity: 0; transition: opacity .7s ease; }
+  .slide.on { opacity: 1; }
+  .gold   { --bg: #15100B; --acc: #D9A441; --line: #3A2D1F; --mut: #9C8B76; --bar: #0C0906; }
+  .orange { --bg: #1A0F0A; --acc: #E8894A; --line: #3E2618; --mut: #9C8B76; --bar: #0C0906; }
+  .green  { --bg: #0E1412; --acc: #D9A441; --line: #26332E; --mut: #8F9A94; --bar: #070A09; }
+  .blue   { --bg: #0A1426; --acc: #7FC4FF; --line: #1E2E4A; --mut: #8DA0C0; --bar: #060C17; }
+  .slide { background: var(--bg); }
+  .body { flex: 1; display: flex; flex-direction: column; padding: 52px 72px 0; min-height: 0; }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .kicker { font-size: 26px; font-weight: 800; letter-spacing: 6px; color: var(--acc); }
+  .pill { font-size: 30px; font-weight: 800; background: var(--acc); color: var(--bg); padding: 10px 26px; border-radius: 999px; }
+  h1 { margin: 16px 0 26px; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 84px; line-height: 1.02; }
+  h1.small { font-size: 66px; }
+  .grid { display: grid; column-gap: 64px; row-gap: 12px; font-size: 40px; font-weight: 700; }
+  .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); font-size: 38px; column-gap: 56px; }
+  .grid.one { grid-template-columns: minmax(0, 1fr); font-size: 46px; row-gap: 16px; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; border-bottom: 2px solid var(--line); padding-bottom: 10px; }
+  .row .n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .price { white-space: nowrap; color: var(--acc); }
+  .old { color: var(--mut); font-size: .7em; text-decoration: line-through; margin-right: 10px; }
+  .bar { height: 84px; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 72px;
+         background: var(--bar); font-size: 26px; font-weight: 700; gap: 24px; }
+  .brand { font-family: 'Playfair Display', serif; font-size: 34px; white-space: nowrap; }
+  .brand b { color: #D9A441; font-weight: 700; }
+  .clock { color: #C9B9A3; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .center { text-align: center; flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  /* produkt */
+  .side { flex: 1; display: flex; min-height: 0; }
+  .side img { width: 560px; height: 100%; object-fit: cover; display: block; }
+  .side .info { flex: 1; display: flex; flex-direction: column; padding: 56px; gap: 14px; }
+  .big { font-size: 150px; font-weight: 800; color: var(--acc); line-height: 1; }
+  .unit { font-size: 44px; font-weight: 700; margin-left: 14px; }
+  .full { position: absolute; inset: 0; }
+  .full img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .band { position: absolute; left: 0; right: 0; bottom: 0; height: 230px; background: rgba(12, 9, 6, .88); display: flex;
+          align-items: center; justify-content: space-between; padding: 0 72px; }
+  /* video */
+  .vid { flex: 1; display: flex; gap: 64px; padding: 40px 72px 40px; min-height: 0; align-items: center; }
+  .vid video { height: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 22px; background: #000; }
+  /* ndeshjet */
+  .m { display: grid; grid-template-columns: 100px minmax(0, 1fr) 36px minmax(0, 1fr) 220px; align-items: center; column-gap: 14px;
+       background: #13213A; border-radius: 12px; padding: 3px 20px; font-size: 28px; font-weight: 700; }
+  .m .t { color: var(--acc); font-weight: 800; }
+  .m .h { display: flex; align-items: center; gap: 12px; justify-content: flex-end; text-align: right; }
+  .m .a { display: flex; align-items: center; gap: 12px; }
+  .m img { width: 40px; height: 40px; object-fit: contain; }
+  .m .c { font-size: 20px; color: #B9C6DC; text-align: right; }
+  .mlist { display: flex; flex-direction: column; gap: 7px; }
+  /* besnikëria */
+  .two-cards { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px; padding: 48px 72px 40px; min-height: 0; }
+  .card { border-radius: 24px; padding: 38px; display: flex; flex-direction: column; gap: 16px; }
+  .card h2 { margin: 0; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 76px; line-height: 1; }
+  .card p { margin: 0; font-size: 30px; line-height: 1.35; }
+  .qr { width: 190px; height: 190px; border-radius: 12px; image-rendering: pixelated; }
+  /* reklamë */
+  .ad { position: absolute; inset: 0; background: #000; }
+  .ad img, .ad video { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .adtag { position: absolute; top: 18px; right: 22px; font-size: 18px; font-weight: 700; color: #fff; background: rgba(0,0,0,.55); padding: 6px 14px; border-radius: 999px; }
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage"></div></div>
+<script src="config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var C = window.TV_CONFIG;
+  var stage = document.getElementById('stage');
+  var DATA = null;          // ofertat nga sistemi
+  var idx = -1, sinceAd = 0, timer = null;
+
+  /* ---------- shkallëzimi në çdo ekran ---------- */
+  function fit() {
+    var s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    stage.style.transform = 'scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit); fit();
+
+  /* ---------- ndihmës ---------- */
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function norm(s) { return String(s || '').trim().toLowerCase(); }
+  function nowParts() {
+    var f = new Intl.DateTimeFormat('en-GB', { timeZone: C.timezone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+    var p = {}; f.formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+    var h = p.hour === '24' ? '00' : p.hour;
+    return { date: p.year + '-' + p.month + '-' + p.day, hm: h + ':' + p.minute, min: (+h) * 60 + (+p.minute) };
+  }
+  function toMin(t) { var a = String(t || '0:0').split(':'); return (+a[0]) * 60 + (+a[1]); }
+  function inWindow(start, end, m) {
+    var s = toMin(start), e = toMin(end);
+    if (s === e) return true;
+    return s < e ? (m >= s && m < e) : (m >= s || m < e);
+  }
+  function hhmm(t) { return String(t || '').slice(0, 5); }
+  function slug(s) { return String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+
+  /* ---------- të dhënat (vetëm lexim) ---------- */
+  function get(path) {
+    return fetch(C.db.url + '/rest/v1/' + path, { headers: { apikey: C.db.key }, cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+  }
+  function load() {
+    return Promise.all([
+      get('combo_offers?select=id,name,enabled,start_time,end_time'),
+      get('combo_offer_conditions?select=id,offer_id,item_id,qty'),
+      get('combo_offer_rewards?select=condition_id,price,enabled'),
+      get('menu_items?select=id,name,price,available,is_active')
+    ]).then(function (r) {
+      var items = {}; r[3].forEach(function (i) { items[i.id] = i; });
+      var disc = {}; r[2].forEach(function (w) { if (w.enabled) disc[w.condition_id] = (disc[w.condition_id] || 0) + (w.price || 0); });
+      var offers = {};
+      r[0].forEach(function (o) { offers[norm(o.name)] = { enabled: o.enabled, start: o.start_time, end: o.end_time, items: {} }; });
+      var byId = {}; r[0].forEach(function (o) { byId[o.id] = offers[norm(o.name)]; });
+      r[1].forEach(function (c) {
+        var o = byId[c.offer_id], it = items[c.item_id];
+        if (!o || !it || Number(c.qty) !== 1) return;
+        if (it.available === false || it.is_active === false) return;
+        var d = disc[c.id] || 0;
+        o.items[norm(it.name)] = { old: it.price, now: it.price + d };
+      });
+      DATA = { offers: offers, at: Date.now() };
+      try { localStorage.setItem('tv-data', JSON.stringify(DATA)); } catch (e) {}
+    }).catch(function () {
+      if (!DATA) { try { var c = JSON.parse(localStorage.getItem('tv-data')); if (c && Date.now() - c.at < 24 * 3600e3) DATA = c; } catch (e) {} }
+    });
+  }
+  function activeOffer(name) {
+    if (!DATA) return null;
+    var o = DATA.offers[norm(name)];
+    if (!o || !o.enabled || !inWindow(o.start, o.end, nowParts().min)) return null;
+    return o;
+  }
+
+  /* ---------- ndërtimi i ekraneve ---------- */
+  function bar(text) {
+    return '<div class="bar"><span class="brand">Boulevard <b>Caffe</b></span><span class="center">' + esc(text || '') +
+      '</span><span class="clock" data-clock>' + nowParts().hm + '</span></div>';
+  }
+  function priceHtml(p) {
+    return '<span class="price">' + (p.old > p.now ? '<span class="old">' + p.old + '</span>' : '') + p.now + ' L</span>';
+  }
+  var build = {
+    offer: function (s) {
+      var o = activeOffer(s.offer); if (!o) return null;
+      var rows = s.items.map(function (x) { var p = o.items[norm(x[0])]; return p ? '<div class="row"><span class="n">' + esc(x[1]) + '</span>' + priceHtml(p) + '</div>' : ''; }).filter(Boolean);
+      if (!rows.length) return null;
+      return '<div class="body"><div class="top"><span class="kicker">' + esc(s.kicker) + '</span><span class="pill">' + hhmm(o.start) + ' – ' + hhmm(o.end) + '</span></div>' +
+        '<h1 class="' + (s.title.length > 30 ? 'small' : '') + '">' + esc(s.title) + '</h1>' +
+        '<div class="grid ' + (rows.length > 4 ? 'two' : 'one') + '">' + rows.join('') + '</div></div>' + bar(s.footer);
+    },
+    product: function (s) {
+      var o = activeOffer(s.offer); if (!o) return null;
+      var p = o.items[norm(s.item)]; if (!p) return null;
+      var price = '<div><span class="big">' + p.now + '</span><span class="unit">lekë</span></div>' + (p.old > p.now ? '<div style="font-size:36px;color:var(--mut)"><s>' + p.old + ' lekë</s></div>' : '');
+      var kick = esc(s.kicker) + ' ' + hhmm(o.start) + ' – ' + hhmm(o.end);
+      if (s.layout === 'full') {
+        return '<div class="full"><img src="' + esc(s.photo) + '" alt=""><div class="band"><div><div class="kicker">' + kick + '</div>' +
+          '<div style="font-family:\'Playfair Display\',serif;font-weight:900;font-size:80px;line-height:1">' + esc(s.label) + '</div></div>' +
+          '<div style="text-align:right">' + price + '</div></div></div>';
+      }
+      return '<div class="side"><img src="' + esc(s.photo) + '" alt=""><div class="info"><div class="kicker">' + kick + '</div>' +
+        '<h1 style="margin:0">' + esc(s.label) + '</h1>' + price + '<div style="flex:1"></div></div></div>' + bar('Porosit nga telefoni: skano QR-në në tavolinë');
+    },
+    video: function (s) {
+      if (s.offer && !activeOffer(s.offer)) return null;
+      return '<div class="vid"><video src="' + esc(s.src) + '" muted autoplay playsinline></video><div style="display:flex;flex-direction:column;gap:18px">' +
+        '<div class="kicker">' + esc(s.kicker) + '</div><h1 style="margin:0">' + esc(s.title) + '</h1>' +
+        '<div style="font-size:30px;color:#C9B9A3">Na ndiqni në Instagram: @boulevard.cafe_el</div></div></div>' + bar('');
+    },
+    matches: function () {
+      var m = C.matches, n = nowParts();
+      if (!m || m.date !== n.date) return null;
+      var list = (m.list || []).filter(function (x) { return toMin(x[0]) + 120 > n.min; }).slice(0, 7);
+      if (!list.length) return null;
+      function crest(t) { return '<img src="media/logos/' + slug(t) + '.png" alt="" onerror="this.style.visibility=\'hidden\'">'; }
+      var rows = list.map(function (x) {
+        return '<div class="m"><span class="t">' + esc(x[0]) + '</span><span class="h">' + esc(x[1]) + crest(x[1]) + '</span><span style="text-align:center;color:#8DA0C0">–</span>' +
+          '<span class="a">' + crest(x[2]) + esc(x[2]) + '</span><span class="c">' + esc(x[3] || '') + '</span></div>';
+      }).join('');
+      var beer = activeOffer('🍺 & 🍷') ? m.offerLine : '';
+      return '<div class="body" style="padding-top:30px"><div class="top"><span class="kicker">FUTBOLL LIVE NË EKRAN</span><span class="pill">Sot</span></div>' +
+        '<h1 style="margin:6px 0 14px;font-size:56px">Ndeshjet e sotme</h1><div class="mlist">' + rows + '</div></div>' + bar(beer);
+    },
+    loyalty: function (s) {
+      if (!s.active) return null;
+      return '<div class="two-cards"><div class="card" style="background:#221910"><div class="kicker" style="font-size:22px">PROGRAMI I BESNIKËRISË</div>' +
+        '<h2>E 10-ta FALAS</h2><p style="color:#E3D6C2">Porosit nga telefoni dhe çdo e 10-ta kafe është falas.</p><div style="flex:1"></div>' +
+        '<div style="display:flex;align-items:center;gap:24px"><img class="qr" src="media/qr-menu.png" alt="QR caffeboulevard.com">' +
+        '<div style="font-size:28px;font-weight:700">Skano dhe porosit<br><span style="color:#D9A441">caffeboulevard.com</span></div></div></div>' +
+        '<div class="card" style="background:#D9A441;color:#15100B"><div class="kicker" style="font-size:22px;color:#15100B">LOTARIA BOULEVARD</div>' +
+        '<h2>Mund të jesh fitues!</h2><p>Çdo faturë ka një biletë QR. Skanoje dhe shiko nëse ke fituar.</p><div style="flex:1"></div>' +
+        '<div class="pill" style="align-self:flex-start;background:#15100B;color:#D9A441">Skano QR-në në faturë</div></div></div>' + bar('');
+    },
+    notice: function (s) {
+      if (!s.active) return null;
+      return '<div class="body" style="justify-content:center;gap:22px;padding-top:0"><div class="kicker">' + esc(s.kicker) + '</div>' +
+        '<h1 style="margin:0;font-size:100px">' + esc(s.title) + '</h1><div style="font-size:42px;font-weight:700">' + esc(s.sub) + '</div>' +
+        '<div class="pill" style="align-self:flex-start;font-size:46px;padding:14px 32px">' + esc(s.pill) + '</div>' +
+        '<div style="font-size:30px;color:#C9B9A3">' + esc(s.note) + '</div></div>' + bar('');
+    }
+  };
+
+  function nextAd() {
+    var d = nowParts().date;
+    var ok = (C.ads || []).filter(function (a) { return (!a.from || d >= a.from) && (!a.to || d <= a.to); });
+    if (!ok.length) return null;
+    var a = ok[Math.floor(Math.random() * ok.length)];
+    if (sinceAd < (a.every || 4)) return null;
+    sinceAd = 0;
+    var media = a.video ? '<video src="' + esc(a.video) + '" muted autoplay playsinline></video>' : '<img src="' + esc(a.image) + '" alt="">';
+    return { html: '<div class="ad">' + media + '<span class="adtag">Reklamë</span></div>', theme: 'gold' };
+  }
+
+  /* ---------- rrotullimi ---------- */
+  function show() {
+    clearTimeout(timer);
+    var out = nextAd(), tries = 0;
+    while (!out && tries < C.slides.length) {
+      idx = (idx + 1) % C.slides.length; tries++;
+      var s = C.slides[idx], h = null;
+      try { h = build[s.type] && build[s.type](s); } catch (e) { h = null; }
+      if (h) { out = { html: h, theme: s.theme || (s.type === 'matches' ? 'blue' : 'gold') }; sinceAd++; }
+    }
+    if (!out) { out = { html: '<div class="body" style="justify-content:center;align-items:center"><h1>Boulevard Caffe</h1></div>', theme: 'gold' }; }
+    var el = document.createElement('div');
+    el.className = 'slide ' + out.theme; el.innerHTML = out.html;
+    stage.appendChild(el);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('on'); }); });
+    var old = stage.querySelectorAll('.slide'); for (var i = 0; i < old.length - 1; i++) (function (o) { o.classList.remove('on'); setTimeout(function () { o.remove(); }, 900); })(old[i]);
+    var v = el.querySelector('video');
+    if (v) {
+      var done = false, go = function () { if (!done) { done = true; show(); } };
+      v.addEventListener('ended', go); v.addEventListener('error', go);
+      timer = setTimeout(go, 30000);
+      v.play && v.play().catch(function () {});
+    } else {
+      timer = setTimeout(show, (C.seconds || 10) * 1000);
+    }
+  }
+
+  setInterval(function () { var t = nowParts().hm; document.querySelectorAll('[data-clock]').forEach(function (e) { e.textContent = t; }); }, 15000);
+  setInterval(load, 5 * 60 * 1000);                 // çmimet rifreskohen çdo 5 minuta
+  setTimeout(function () { location.reload(); }, 6 * 3600 * 1000); // faqja rifreskohet çdo 6 orë
+  load().then(show);
+})();
+</script>
+</body>
+</html>
