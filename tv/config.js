@@ -49,19 +49,18 @@ window.TV_CONFIG = {
 
   /* Ndeshjet: shfaqen vetëm ditën e shënuar (date = YYYY-MM-DD). */
   matches: {
-    date: '2026-10-24',
+    date: '2026-10-25',
     offerLine: 'Heineken 200 lekë · shishe ose kriko',
     list: [
       // ['ORA', 'Shtëpia', 'Mysafiri', 'Kampionati']  (stemat merren vetë nga media/logos/)
-      ['13:30', 'Aston Villa', 'Man City', 'Premier League'],
-      ['13:30', 'Partizani', 'Skënderbeu', 'Abissnet Superiore'],
-      ['13:30', 'Laçi', 'Vora', 'Abissnet Superiore'],
-      ['16:00', 'Arsenal', 'Everton', 'Premier League'],
-      ['18:00', 'Napoli', 'Roma', 'Serie A'],
-      ['18:30', 'Teuta', 'AF Elbasani', 'Abissnet Superiore'],
-      ['18:30', 'Vllaznia', 'Tirana', 'Abissnet Superiore'],
-      ['18:30', 'Chelsea', 'Tottenham', 'Premier League'],
-      ['21:00', 'Atlético', 'Deportivo', 'La Liga']
+      ['12:30', 'Inter', 'Fiorentina', 'Serie A'],
+      ['15:00', 'Liverpool', 'Brighton', 'Premier League'],
+      ['15:00', 'Man United', 'Bournemouth', 'Premier League'],
+      ['17:15', 'Marseille', 'Le Havre', 'Ligue 1'],
+      ['17:30', 'Freiburg', 'Bayern', 'Bundesliga'],
+      ['18:00', 'Lecce', 'Juventus', 'Serie A'],
+      ['20:45', 'Udinese', 'Milan', 'Serie A'],
+      ['21:00', 'Barcelona', 'Real Madrid', 'La Liga']
     ]
   },
 
