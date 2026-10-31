@@ -1,6 +1,6 @@
 """Render the daily morning Instagram Story for Boulevard Caffe.
 
-Usage: python3 tools/greeting.py YYYY-MM-DD [--offer "Ekspres 60 lekë deri në 11:00"]
+Usage: python3 tools/greeting.py YYYY-MM-DD [--offer "Ekspres 60 lekë deri në 10:00"]
 Writes media/daily/greeting-YYYY-MM-DD.jpg (1080x1920).
 """
 import argparse, datetime, os

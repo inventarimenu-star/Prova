@@ -1,6 +1,6 @@
 """10:00 'last hour of the breakfast offer' Story for Boulevard Caffe.
 
-python3 tools/lastcall.py YYYY-MM-DD rows.json [--until 11:00]
+python3 tools/lastcall.py YYYY-MM-DD rows.json [--until 10:00]
 rows.json: [["Çokollatë e nxehtë", 150, 170], ["Tost mëngjesi", 150, null], ...]  (label, price now, old price or null)
 Writes media/daily/oferta-ora-fundit-YYYY-MM-DD.jpg (1080x1920).
 """
@@ -33,7 +33,7 @@ def center(d, y, txt, f, fill):
     bb = d.textbbox((0, 0), txt, font=f)
     d.text(((W - (bb[2] - bb[0])) // 2 - bb[0], y), txt, font=f, fill=fill)
 
-def render(date, rows, until="11:00", qr=False):
+def render(date, rows, until="10:00", qr=False):
     p = Image.open(os.path.join(ROOT, "media", "base", "latte-flatlay.jpg")).convert("RGB")
     s = max(W / p.width, H / p.height)
     p = p.resize((int(p.width * s) + 1, int(p.height * s) + 1))
@@ -68,6 +68,6 @@ def render(date, rows, until="11:00", qr=False):
     return out
 
 if __name__ == "__main__":
-    a = argparse.ArgumentParser(); a.add_argument("date"); a.add_argument("rows"); a.add_argument("--until", default="11:00"); a.add_argument("--qr", action="store_true")
+    a = argparse.ArgumentParser(); a.add_argument("date"); a.add_argument("rows"); a.add_argument("--until", default="10:00"); a.add_argument("--qr", action="store_true")
     a = a.parse_args()
     print(render(a.date, json.load(open(a.rows)), a.until, qr=a.qr))
